@@ -18,6 +18,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_has_a_coordinate
+    skip
     cell = Cell.new("B4")
 
     expected = "B4"
@@ -26,6 +27,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_does_not_have_a_ship
+    skip
     cell = Cell.new("B4")
 
     expected = nil
@@ -34,6 +36,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_starts_empty
+    skip
     cell = Cell.new("B4")
 
     expected = true
@@ -43,6 +46,7 @@ class CellTest < Minitest::Test
 
 #### Add a ship
   def test_add_a_ship
+    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
 
@@ -53,6 +57,7 @@ class CellTest < Minitest::Test
 
 #### Place ship
   def test_cell_has_a_ship #? <- reading instructions as well as I can
+    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -63,6 +68,7 @@ class CellTest < Minitest::Test
   end
 
   def test_is_cell_empty_after_placing_ship
+    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -76,6 +82,7 @@ class CellTest < Minitest::Test
 #### Additionally, a cell knows when it has been fired upon. When it is fired upon, the cell’s ship should be damaged if it has one:
 
   def test_whether_a_cell_has_been_fired_upon
+    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -86,6 +93,7 @@ class CellTest < Minitest::Test
   end
 
   def test_ship_health_after_cell_is_fired_upon
+    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -97,6 +105,7 @@ class CellTest < Minitest::Test
   end
 
   def test_whether_cell_has_now_been_fired_upon
+    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -117,6 +126,7 @@ class CellTest < Minitest::Test
 #### Additionally, we will include an optional boolean argument to indicate if we want to reveal a ship in the cell even if it has not been fired upon. This should render a cell that has not been fired upon and contains a ship as an “S”. This will be useful for showing the user where they placed their ships and for debugging.
 
   def test_cell_1_exists
+    skip
     cell_1 = Cell.new("B4")
 
     expected = Cell
@@ -125,6 +135,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_1_renders_period_until_fired_upon
+    skip
     cell_1 = Cell.new("B4")
 
     expected = "."
@@ -133,6 +144,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_1_renders_M_after_fired_upon_but_contains_no_ship
+    skip
     cell_1 = Cell.new("B4")
     cell_1.fire_upon
 
@@ -142,6 +154,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_exists
+    skip
     cell_2 = Cell.new("C3")
 
     expected = Cell
@@ -150,6 +163,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_renders_period_before_fired_upon
+    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -162,6 +176,7 @@ class CellTest < Minitest::Test
 #### Allow cell to render "S" when not fired upon and does contain a ship.
 #### Will be useful for showing user where they placed their ships and debugging.
   def test_cell_2_renders_S_when_not_fired_upon_but_contains_a_ship
+    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -174,6 +189,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_renders_H_after_fired_upon_and_contains_a_ship
+    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -185,6 +201,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cruiser_sunk_after_fired_upon_once
+    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -196,6 +213,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cruiser_sunk_after_fired_upon_once_and_hit_twice #? <- may need to clarify this sequence with instructors, I've double checked it.
+    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -209,6 +227,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_renders_X_after_fired_upon_and_ship_sunk
+    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
