@@ -4,7 +4,7 @@ attr_reader :name, :length, :health
   def initialize(name, length)
     @name = name
     @length = length
-    @health = 3
+    @health = @length
     @sunk = false
   end
 
@@ -15,11 +15,13 @@ attr_reader :name, :length, :health
   def sunk?
     if @cruiser.health == 0
     @sunk = true
+    @render == "X"
   end
   end
 
   def hit
     @health -= 1
+    @render = "H"
   end
 
 

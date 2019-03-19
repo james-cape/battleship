@@ -76,7 +76,6 @@ class CellTest < Minitest::Test
 #### Additionally, a cell knows when it has been fired upon. When it is fired upon, the cell’s ship should be damaged if it has one:
 
   def test_whether_a_cell_has_been_fired_upon
-    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -87,7 +86,6 @@ class CellTest < Minitest::Test
   end
 
   def test_ship_health_after_cell_is_fired_upon
-    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -99,7 +97,6 @@ class CellTest < Minitest::Test
   end
 
   def test_whether_cell_has_now_been_fired_upon
-    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -111,16 +108,20 @@ class CellTest < Minitest::Test
   end
 
 #########
-#### Finally, a Cell will have a method called render which returns a String representation of the Cell for when we need to print the board. A cell can potentially be rendered as:
+#### Finally, a Cell will have a method called render which returns
+# a String representation of the Cell for when we need to print the
+# board. A cell can potentially be rendered as:
 
 #### ”.” if the cell has not been fired upon.
-#### “M” if the cell has been fired upon and it does not contain a ship (the shot was a miss).
-#### “H” if the cell has been fired upon and it contains a ship (the shot was a hit).
+#### “M” if the cell has been fired upon and it does not contain a
+# ship (the shot was a miss).
+#### “H” if the cell has been fired upon and it contains a ship
+# (the shot was a hit).
 #### “X” if the cell has been fired upon and its ship has been sunk.
-#### Additionally, we will include an optional boolean argument to indicate if we want to reveal a ship in the cell even if it has not been fired upon. This should render a cell that has not been fired upon and contains a ship as an “S”. This will be useful for showing the user where they placed their ships and for debugging.
+#### Additionally, we will include an optional boolean argument to indicate if we want
+ # to reveal a ship in the cell even if it has not been fired upon. This should render a cell that has not been fired upon and contains a ship as an “S”. This will be useful for showing the user where they placed their ships and for debugging.
 
   def test_cell_1_exists
-    skip
     cell_1 = Cell.new("B4")
 
     expected = Cell
@@ -129,7 +130,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_1_renders_period_until_fired_upon
-    skip
     cell_1 = Cell.new("B4")
 
     expected = "."
@@ -138,7 +138,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_1_renders_M_after_fired_upon_but_contains_no_ship
-    skip
     cell_1 = Cell.new("B4")
     cell_1.fire_upon
 
@@ -148,7 +147,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_exists
-    skip
     cell_2 = Cell.new("C3")
 
     expected = Cell
@@ -157,7 +155,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_renders_period_before_fired_upon
-    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -170,7 +167,7 @@ class CellTest < Minitest::Test
 #### Allow cell to render "S" when not fired upon and does contain a ship.
 #### Will be useful for showing user where they placed their ships and debugging.
   def test_cell_2_renders_S_when_not_fired_upon_but_contains_a_ship
-    skip
+
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -183,7 +180,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_renders_H_after_fired_upon_and_contains_a_ship
-    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
