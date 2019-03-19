@@ -4,7 +4,7 @@ require './lib/ship'
 require './lib/cell'
 
 class ShipTest < Minitest::Test
-
+  attr_reader :cruiser
   def setup
     @cruiser = Ship.new("Cruiser", 3)
   end
@@ -12,7 +12,7 @@ class ShipTest < Minitest::Test
   def test_ship_exists
 
     expected = Ship
-    actual = @cruiser #check if we need the "@" once we finish
+    actual = cruiser #Removed the "@" by adding attr_reader
     assert_instance_of expected, actual
   end
 
