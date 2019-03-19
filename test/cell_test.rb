@@ -7,11 +7,10 @@ require './lib/cell'
 
 class CellTest < Minitest::Test
 
-  def setup
-    @cell = Cell.new("B4")
-  end
+# Removed setup - didn't work well in this test.
 
   def test_cell_exists
+    cell = Cell.new("B4")
 
     expected = Cell
     actual = cell
@@ -19,6 +18,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_has_a_coordinate
+    cell = Cell.new("B4")
 
     expected = "B4"
     actual = cell.coordinate
@@ -26,6 +26,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_does_not_have_a_ship
+    cell = Cell.new("B4")
 
     expected = nil
     actual = cell.ship
@@ -33,6 +34,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_starts_empty
+    cell = Cell.new("B4")
 
     expected = true
     actual = cell.empty?
@@ -41,6 +43,7 @@ class CellTest < Minitest::Test
 
 #### Add a ship
   def test_add_a_ship
+    cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
 
     expected = Ship
@@ -50,6 +53,7 @@ class CellTest < Minitest::Test
 
 #### Place ship
   def test_cell_has_a_ship #? <- reading instructions as well as I can
+    cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
 
@@ -59,6 +63,7 @@ class CellTest < Minitest::Test
   end
 
   def test_is_cell_empty_after_placing_ship
+    cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
 
@@ -71,6 +76,7 @@ class CellTest < Minitest::Test
 #### Additionally, a cell knows when it has been fired upon. When it is fired upon, the cell’s ship should be damaged if it has one:
 
   def test_whether_a_cell_has_been_fired_upon
+    cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
 
@@ -80,6 +86,7 @@ class CellTest < Minitest::Test
   end
 
   def test_ship_health_after_cell_is_fired_upon
+    cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
     cell.fire_upon
@@ -90,6 +97,7 @@ class CellTest < Minitest::Test
   end
 
   def test_whether_cell_has_now_been_fired_upon
+    cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
     cell.fire_upon
