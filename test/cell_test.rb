@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/ship'
 require './lib/cell'
-
+require 'pry'
 #### A Cell object is a single cell on our board. A Cell can either contain a Ship or nothing.
 
 class CellTest < Minitest::Test
@@ -18,7 +18,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_has_a_coordinate
-    skip
     cell = Cell.new("B4")
 
     expected = "B4"
@@ -27,7 +26,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_does_not_have_a_ship
-    skip
     cell = Cell.new("B4")
 
     expected = nil
@@ -36,7 +34,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_starts_empty
-    skip
     cell = Cell.new("B4")
 
     expected = true
@@ -46,7 +43,6 @@ class CellTest < Minitest::Test
 
 #### Add a ship
   def test_add_a_ship
-    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
 
@@ -57,7 +53,6 @@ class CellTest < Minitest::Test
 
 #### Place ship
   def test_cell_has_a_ship #? <- reading instructions as well as I can
-    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -68,7 +63,6 @@ class CellTest < Minitest::Test
   end
 
   def test_is_cell_empty_after_placing_ship
-    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
