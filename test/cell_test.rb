@@ -86,6 +86,7 @@ class CellTest < Minitest::Test
   end
 
   def test_ship_health_after_cell_is_fired_upon
+
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -97,6 +98,7 @@ class CellTest < Minitest::Test
   end
 
   def test_whether_cell_has_now_been_fired_upon
+
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -122,6 +124,7 @@ class CellTest < Minitest::Test
  # to reveal a ship in the cell even if it has not been fired upon. This should render a cell that has not been fired upon and contains a ship as an “S”. This will be useful for showing the user where they placed their ships and for debugging.
 
   def test_cell_1_exists
+
     cell_1 = Cell.new("B4")
 
     expected = Cell
@@ -130,6 +133,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_1_renders_period_until_fired_upon
+
     cell_1 = Cell.new("B4")
 
     expected = "."
@@ -138,6 +142,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_1_renders_M_after_fired_upon_but_contains_no_ship
+
     cell_1 = Cell.new("B4")
     cell_1.fire_upon
 
@@ -147,6 +152,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_exists
+
     cell_2 = Cell.new("C3")
 
     expected = Cell
@@ -155,6 +161,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_renders_period_before_fired_upon
+
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -180,6 +187,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_renders_H_after_fired_upon_and_contains_a_ship
+
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -191,6 +199,7 @@ class CellTest < Minitest::Test
   end
 
   def test_cruiser_sunk_after_fired_upon_once
+
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -202,25 +211,37 @@ class CellTest < Minitest::Test
   end
 
   def test_cruiser_sunk_after_fired_upon_once_and_hit_twice #? <- may need to clarify this sequence with instructors, I've double checked it.
+
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
+
     cell_2.fire_upon
+
     cruiser.hit
+    cruiser.hit
+
     cruiser.hit
 
     expected = true
     actual = cruiser.sunk?
+
     assert_equal expected, actual
   end
 
   def test_cell_2_renders_X_after_fired_upon_and_ship_sunk
+
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
+
     cell_2.fire_upon
+
     cruiser.hit
     cruiser.hit
+
+
+    # binding.pry
 
     expected = "X"
     actual = cell_2.render
