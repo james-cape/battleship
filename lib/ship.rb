@@ -11,7 +11,9 @@ attr_reader :name, :length, :sunk, :health
   def sunk?
     if @health <= 0
       @sunk = true
+      @sunk
     else
+      @sunk = false
       @sunk
     end
   end
