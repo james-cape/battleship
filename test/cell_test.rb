@@ -184,14 +184,13 @@ class CellTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
     cell_2.fire_upon
-
+# binding.pry
     expected = "H"
     actual = cell_2.render
     assert_equal expected, actual
   end
 
   def test_cruiser_sunk_after_fired_upon_once
-    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -203,7 +202,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cruiser_sunk_after_fired_upon_once_and_hit_twice #? <- may need to clarify this sequence with instructors, I've double checked it.
-    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
@@ -217,7 +215,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_2_renders_X_after_fired_upon_and_ship_sunk
-    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)

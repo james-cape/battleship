@@ -34,14 +34,14 @@ class Cell
       @render = "M"
     else
       @ship.hit
-      # binding.pry
+      @render = "H"
     end
 
     def render(argument = false)
       if argument == true
         @render = "S"
       else
-      @render
+        @render
       end
     end
   end
