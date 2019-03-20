@@ -24,7 +24,45 @@ class Board
 
      end
 
+     def valid_coordinate?(coor)
+       @cells.keys.include?(coor)
+     end
+
+     def valid_placement?(ship, coor_array)
+       coor_array.length == ship.length
+     end
+
+
   end
+
+
+# A -> A or B
+# 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   # def cells
   #   i = 0

@@ -40,10 +40,10 @@ class BoardTest < Minitest::Test
 
 
   def test_all_16_board_keys_point_to_cell_objects
-    
+
     expected = true
 
-    actual = @board.values.all? do |val|
+    actual = @board.cells.values.all? do |val|
       val.kind_of?(Object)
     end
     # hash.values returns an array of values.
@@ -53,27 +53,16 @@ class BoardTest < Minitest::Test
   end
 
   def test_first_key_value_pair_in_board_is_A1
-    skip
-
-##### I accidentally wrote the method - just copy paste this into the ship.rb to solve this test.
-
-#def cells
-# i = 0
-# until i >= @cells.count
-#   @board[@coordinates[i]] = @cells[i]
-#   i += 1
-# end
-#end
 
     expected = "A1"
-    actual = @board.cells.keys[0] # <--- I hope I got this chain right.
+    actual = @board.cells.keys[0]
     assert_equal expected, actual
   end
 
 
 #### Validating Coordinates
   def test_whether_coordinate_is_on_board_or_not
-    skip
+
     assert_equal true, @board.valid_coordinate?("A1")
     assert_equal true, @board.valid_coordinate?("D4")
     assert_equal false, @board.valid_coordinate?("A5")
@@ -84,13 +73,13 @@ class BoardTest < Minitest::Test
 
 #### Validating Placements
   def test_number_of_coordinates_is_same_as_ship_length
-    skip
+
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
     assert_equal false, @board.valid_placement?(@submarine, ["A2", "A3", "A4"])
   end
 
   def test_coordinates_are_consecutive
-    skip
+
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
     assert_equal false, @board.valid_placement?(@submarine, ["A1", "C1"])
     assert_equal false, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
