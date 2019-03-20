@@ -3,66 +3,91 @@ require 'minitest/pride'
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
+require 'pry'
 
-attr_reader :board
 
 class BoardTest < Minitest::Test
 
   def setup
-    @board = Board.new
+    @board_hash = {}
+    @coordinates_array = [
+              "A1", "A2", "A3", "A4",   # For now I'm hard coding
+              "B1", "B2", "B3", "B4",
+              "C1", "C2", "C3", "C4",
+              "D1", "D2", "D3", "D4"   ]
+
+    @cell_array = [
+      cell_1 = Cell.new("A1"),
+      cell_2 = Cell.new("A2"),
+      cell_3 = Cell.new("A3"),
+      cell_4 = Cell.new("A4"),
+      cell_5 = Cell.new("B1"),
+      cell_6 = Cell.new("B2"),
+      cell_7 = Cell.new("B3"),
+      cell_8 = Cell.new("B4"),
+      cell_9 = Cell.new("C1"),
+      cell_10 = Cell.new("C2"),
+      cell_11 = Cell.new("C3"),
+      cell_12 = Cell.new("C4"),
+      cell_13 = Cell.new("D1"),
+      cell_14 = Cell.new("D2"),
+      cell_15 = Cell.new("D3"),
+      cell_16 = Cell.new("D4")    ]
+
   end
 
   def test_board_exists
-
+    skip
     expected = Board
-    actual = board
+    actual = @board_hash
     assert_instance_of expected, actual
   end
+
+  def test_board_hash_has_16_key_value_pairs
+    expected = 16
+    actual = @board_hash.length
+    #.length refers to key:value pairs, not the board length.
+    assert_equal expected, actual
+  end
+
 
   def test_board_is_a_hash #using board.kind_of?(Hash)
     skip
     expected = True
-    actual = board.kind_of?(Hash)
+    actual = @board_hash.kind_of?(Hash)
     assert_equal expected, actual
   end
 
-  def test_board_hash_has_16_key_value_pairs
-    skip
-    expected = 16
-    actual = board.length
-    assert_equal expected, actual
-  end
 
-  def test_16_board_hash_keys_point_to_cell_objects
+  def test_all_16_board_hash_keys_point_to_cell_objects
     skip
     expected = true
-    actual = board.keys.all? do |key|
-      key.kind_of?(Object)
+
+    actual = @board.values.all? do |val|
+      val.kind_of?(Object)
     end
-    # hash.keys returns an array of keys.
-    # hash.keys.any? looks through the array of keys
-    # and says true if all the array are objects.
+    # hash.values returns an array of values.
+    # hash.values.any? looks through the array of values
+    # and returns true if all are objects.
     assert_equal expected, actual
   end
 
+  def test_first_key_value_pair_in_board_hash_is_A1
+    skip
 
-  # =>
-  {
-   "A1" => #<Cell:0x00007ff0728a3f58...>,
-   "A2" => #<Cell:0x00007ff0728a3ee0...>,
-   "A3" => #<Cell:0x00007ff0728a3e68...>,
-   "A4" => #<Cell:0x00007ff0728a3df0...>,
-   "B1" => #<Cell:0x00007ff0728a3d78...>,
-   "B2" => #<Cell:0x00007ff0728a3d00...>,
-   "B3" => #<Cell:0x00007ff0728a3c88...>,
-   "B4" => #<Cell:0x00007ff0728a3c10...>,
-   "C1" => #<Cell:0x00007ff0728a3b98...>,
-   "C2" => #<Cell:0x00007ff0728a3b20...>,
-   "C3" => #<Cell:0x00007ff0728a3aa8...>,
-   "C4" => #<Cell:0x00007ff0728a3a30...>,
-   "D1" => #<Cell:0x00007ff0728a39b8...>,
-   "D2" => #<Cell:0x00007ff0728a3940...>,
-   "D3" => #<Cell:0x00007ff0728a38c8...>,
-   "D4" => #<Cell:0x00007ff0728a3850...>
-  }
+##### I accidentally wrote the method - just copy paste this into the ship.rb to solve this test.
+
+#def cells
+# i = 0
+# until i >= @cells.count
+#   @board[@coordinates[i]] = @cells[i]
+#   i += 1
+# end
+#end
+
+    expected = "A1"
+    actual = board.cells.keys[0] # <--- I hope I got this chain right.
+    assert_equal expected, actual
+  end
+
 end
