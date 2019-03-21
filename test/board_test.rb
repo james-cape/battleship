@@ -13,6 +13,11 @@ class BoardTest < Minitest::Test
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
     @range = 3..8
+
+    @cell_1 = @board.cells["A1"]
+    @cell_2 = @board.cells["A2"]
+    @cell_3 = @board.cells["A3"]
+
   end
 
   def test_board_exists
@@ -91,14 +96,14 @@ class BoardTest < Minitest::Test
   end
 
   def test_previous_checks_pass_meaning_placement_should_be_valid
-    
+
     assert_equal true, @board.valid_placement?(@submarine, ["A1", "A2"])
     assert_equal true, @board.valid_placement?(@cruiser, ["B1", "C1", "D1"])
   end
 
   #### Ranges
   def test_range_exists
-    skip
+
     range = 3..8
 
     expected = Range
@@ -108,7 +113,7 @@ class BoardTest < Minitest::Test
 
 
   def test_array_object
-    skip
+
     range = 3..8
     # array = @range.to_a
 
@@ -118,7 +123,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_array_length
-    skip
+
     range = 3..8
     array = range.to_a
 
@@ -128,7 +133,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_array_element
-    skip
+
     range = 3..8
     array = range.to_a
 
@@ -138,16 +143,16 @@ class BoardTest < Minitest::Test
   end
 
   def test_array_also_works_with_strings
-    skip
+
     range = "A".."D"
 
-    expected = "A".."D"
-    actual = array.length
+    expected = ["A", "B", "C", "D"]
+    actual = range.to_a
     assert_equal expected, actual
   end
 
   def test_array_also_works_with_strings_and_return_string
-    skip
+
     range = "A".."D"
 
     expected = ["A", "B", "C", "D"]
@@ -159,14 +164,14 @@ class BoardTest < Minitest::Test
 # The Range with Strings works because each character has an implicit value that tells us in what order the characters should be. This is called the Ordinal Value, and you can access it with the ord method for Strings:
 
   def test_verify_ordinal_value
-    skip
+
     expected = 65
     actual = "A".ord
     assert_equal expected, actual
   end
 
   def test_verify_another_ordinal_value
-    skip
+
     expected = 68
     actual = "D".ord
     assert_equal expected, actual
@@ -180,7 +185,7 @@ class BoardTest < Minitest::Test
 
 #### Placing Ships
   def test_same_ship_is_on_cell_2_and_cell_3
-    skip
+
     @board.place(@cruiser, ["A1", "A2", "A3"])
     @cell_1.ship
     @cell_2.ship
@@ -193,7 +198,7 @@ class BoardTest < Minitest::Test
 
 #### Overlapping Ships
   def test_ships_cannot_overlap
-    skip
+
     @board.place(@cruiser, ["A1", "A2", "A3"])
     @cell_1.ship
     @cell_2.ship
@@ -215,8 +220,8 @@ class BoardTest < Minitest::Test
 ## And just like with cells, we will include an optional argument to indicate whether we want to show hidden ships.
 
   def test_board_rendering
-    skip
-    @board.place(cruiser, ["A1", "A2", "A3"])
+
+    @board.place(@cruiser, ["A1", "A2", "A3"])
 
     expected =  "  1 2 3 4 \n" +
                 "A . . . . \n" +

@@ -1,7 +1,8 @@
 class Board
-  attr_reader :cells
+  attr_reader :cells, :occupied_cells
 
   def initialize
+    @occupied_cells = []
 
     @cells = {
       "A1" => Cell.new("A1"),
@@ -47,8 +48,6 @@ class Board
     # => [["1", "2", "3"], ["2", "3", "4"]]
     ### ^ These are potential column combinations
 
-
-
     #### Need to put this in a helper method.
     # Outputs potential row combinations.
     rows = []
@@ -70,7 +69,6 @@ class Board
     row_combos
     # => [["A", "B", "C"], ["B", "C", "D"]]
     ### ^ These are potential row combinations
-
 
     ### Need to put this in a helper method.
     # Outputs array of columns the ship is in
@@ -106,16 +104,27 @@ class Board
       end
     end
 
+
 ##### The actual conditional statement that matters.
     coordinate_array.length == ship.length &&
     ((rows_match == true && columns_match == false) ||
-     (rows_match == false && columns_match == true))
+     (rows_match == false && columns_match == true)) &&
+     coordinate_array.all? do |coordinate|
+       @cells[coordinate].empty?
+     end
+
 #### Hopefully we can put everything else into helper methods.
-binding.pry
   end
 
-end
+#### If placement is valid,
+  def place(ship, coordinates_array)
+    coordinates_array.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
+  end
 
+
+end
 
 
 
