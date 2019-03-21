@@ -29,10 +29,12 @@ class Board
   end
 
   def valid_placement?(ship, coordinate_array)
-    coordinate_array.length == ship.length        &&
+    # moved to bottom until we can implement the helper methods
+    # coordinate_array.length == ship.length
 
     ### Need to put this in a helper method.
     # Outputs potential column combinations.
+    # Will not currently work for 10 or more rows.
     columns = []
     @cells.keys.each do |column|
       columns << column[1]
@@ -70,44 +72,47 @@ class Board
     ### ^ These are potential row combinations
 
 
-
-  end
-
-#### valid_placement?
-#### Helper methods
-
-  def all_columns
-    # Can only handle less than 10 rows
-    columns = []
-    @cells.keys.each do |column|
-      columns << column[0]
+    ### Need to put this in a helper method.
+    # Outputs array of columns the ship is in
+    # coordinate_array refers to the argument coming in with valid_placement?
+    ship_columns = []
+    coordinate_array.each do |coordinate|
+      ship_columns << coordinate[1]
     end
-    columns.uniq
-    # => ["A", "B", "C", "D"]
-    columns.uniq.each_cons(ship_length)
-  end
+    ship_columns
+    # => ["1", "2", "4"]
 
-  def all_rows
-    # Can only handle less than 10 rows
-    rows = []
-    @cells.keys.each do |row|
-      rows << row[1]
+    ship_rows = []
+    coordinate_array.each do |coordinate|
+      ship_rows << coordinate[0]
     end
-    rows.uniq
-    # => ["1", "2", "3", "4"]
+    ship_rows
+    # => ["A", "A", "A"]
+
+    ### Compare ship rows/columns with acceptable row/column arrays.
+    columns_match = false
+    rows_match = false
+
+    column_combos.each do |column_combo|
+      if column_combo == ship_columns
+        columns_match = true
+      end
+    end
+
+
+    row_combos.each do |row_combo|
+      if row_combo == ship_rows
+        rows_match = true
+      end
+    end
+
+##### The actual conditional statement that matters.
+    coordinate_array.length == ship.length &&
+    ((rows_match == true && columns_match == false) ||
+     (rows_match == false && columns_match == true))
+#### Hopefully we can put everything else into helper methods.
+
   end
-
-  def ship_columns(coordinate_array)
-
-  end
-
-
-
-  def ship_rows
-
-  end
-#### End valid_placement?
-#### Helper methods
 
 end
 
