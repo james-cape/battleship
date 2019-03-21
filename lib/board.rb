@@ -24,12 +24,31 @@ class Board
 
      end
 
-     def valid_coordinate?(coor)
-       @cells.keys.include?(coor)
+     def valid_coordinate?(coordinate_array)
+       @cells.keys.include?(coordinate_array)
      end
 
-     def valid_placement?(ship, coor_array)
+     def valid_placement?(ship, coordinate_array)
        coor_array.length == ship.length
+     end
+
+#### provide column labels to compare 
+     def extract_column
+       columns = []
+       @cells.keys.each do |column|
+         columns << column[0]
+       end
+       columns
+       # => ["A", "A", "A", "A", "B", "B", "B", "B", "C", "C", "C", "C", "D", "D", "D", "D"]
+     end
+
+     def extract_rows
+       rows = []
+       @cells.keys.each do |row|
+         rows << row[1]
+       end
+       rows
+       # => ["1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4"]
      end
 
 
@@ -37,7 +56,7 @@ class Board
 
 
 # A -> A or B
-# 
+#
 
 
 

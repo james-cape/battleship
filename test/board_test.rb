@@ -80,6 +80,18 @@ class BoardTest < Minitest::Test
 
   def test_coordinates_are_consecutive
 
+    @board.extract_column
+binding.pry
+
+
+
+
+
+
+
+
+
+
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
     assert_equal false, @board.valid_placement?(@submarine, ["A1", "C1"])
     assert_equal false, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
