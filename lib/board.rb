@@ -111,7 +111,7 @@ class Board
     ((rows_match == true && columns_match == false) ||
      (rows_match == false && columns_match == true))
 #### Hopefully we can put everything else into helper methods.
-
+binding.pry
   end
 
 end
