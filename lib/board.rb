@@ -29,34 +29,32 @@ class Board
     @cells.keys.include?(coordinate_array)
   end
 
-  def valid_placement?(ship, coordinate_array)
-    # moved to bottom until we can implement the helper methods
-    # coordinate_array.length == ship.length
+  # Need to put this in a helper method.
+  # Outputs potential column combinations.
+  # Will not currently work for 10 or more rows.
 
-    ### Need to put this in a helper method.
-    # Outputs potential column combinations.
-    # Will not currently work for 10 or more rows.
+
+  def column_combos(ship)
     columns = []
     @cells.keys.each do |column|
       columns << column[1]
     end
 
-    column_combos = []
+    allowable_column_combos = []
     columns.uniq.each_cons(ship.length) do |combo|
-      column_combos << combo
+      allowable_column_combos << combo
     end
-    # => [["1", "2", "3"], ["2", "3", "4"]]
-    ### ^ These are potential column combinations
+    allowable_column_combos
+  end
 
-    #### Need to put this in a helper method.
-    # Outputs potential row combinations.
+  def row_combos(ship)
     rows = []
     @cells.keys.each do |row|
       rows << row[0].ord - 64
     end
     # rows => [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4]
 
-    row_combos = []
+    allowable_row_combos = []
     rows.uniq.each_cons(ship.length) do |combo|
       unscrambled_letters = []
       combo.each do |number|
@@ -64,11 +62,18 @@ class Board
       end
       # => ["A", "B", "C"]
 
-      row_combos << unscrambled_letters
+      allowable_row_combos << unscrambled_letters
     end
-    row_combos
-    # => [["A", "B", "C"], ["B", "C", "D"]]
-    ### ^ These are potential row combinations
+    allowable_row_combos
+  end
+
+
+  def valid_placement?(ship, coordinate_array)
+    # moved to bottom until we can implement the helper methods
+    # coordinate_array.length == ship.length
+
+    column_combos = column_combos(ship)
+    row_combos = row_combos(ship)
 
     ### Need to put this in a helper method.
     # Outputs array of columns the ship is in
@@ -121,6 +126,31 @@ class Board
     coordinates_array.each do |coordinate|
       @cells[coordinate].place_ship(ship)
     end
+  end
+
+  def render
+    rows = []
+    @cells.keys.each do |row|
+      rows << row[0]
+    end
+
+
+    columns = []
+    @cells.keys.each do |column|
+      columns << column[1]
+    end
+
+    rows = rows.uniq
+    columns = columns.uniq
+    binding.pry
+
+    "   #{rows.join("   ")}   \n" +
+    columns.each do |column|
+      p "#{column}  #{@cells[column + rows[column.ord - 64]]}"
+    end
+
+
+
   end
 
 
