@@ -59,7 +59,6 @@ class BoardTest < Minitest::Test
     assert_equal expected, actual
   end
 
-
 #### Validating Coordinates
   def test_whether_coordinate_is_on_board_or_not
 
@@ -70,7 +69,6 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_coordinate?("A22")
   end
 
-
 #### Validating Placements
   def test_number_of_coordinates_is_same_as_ship_length
 
@@ -80,16 +78,8 @@ class BoardTest < Minitest::Test
 
   def test_coordinates_are_consecutive
 
-    @board.extract_column
-binding.pry
-
-
-
-
-
-
-
-
+# @board.test_method
+# binding.pry
 
 
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
