@@ -59,7 +59,6 @@ class BoardTest < Minitest::Test
     assert_equal expected, actual
   end
 
-
 #### Validating Coordinates
   def test_whether_coordinate_is_on_board_or_not
 
@@ -70,7 +69,6 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_coordinate?("A22")
   end
 
-
 #### Validating Placements
   def test_number_of_coordinates_is_same_as_ship_length
 
@@ -80,18 +78,6 @@ class BoardTest < Minitest::Test
 
   def test_coordinates_are_consecutive
 
-    @board.extract_column
-binding.pry
-
-
-
-
-
-
-
-
-
-
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
     assert_equal false, @board.valid_placement?(@submarine, ["A1", "C1"])
     assert_equal false, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
@@ -99,13 +85,13 @@ binding.pry
   end
 
   def test_coordinates_can_not_be_diagonal
-    skip
+
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "B2", "C3"])
     assert_equal false, @board.valid_placement?(@submarine, ["C2", "D3"])
   end
 
   def test_previous_checks_pass_meaning_placement_should_be_valid
-    skip
+    
     assert_equal true, @board.valid_placement?(@submarine, ["A1", "A2"])
     assert_equal true, @board.valid_placement?(@cruiser, ["B1", "C1", "D1"])
   end
