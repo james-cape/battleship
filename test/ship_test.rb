@@ -10,10 +10,9 @@ class ShipTest < Minitest::Test
   end
 
   def test_ship_exists
-
     expected = Ship
-    actual = @cruiser #Removed the "@" by adding attr_reader
-    # binding.pry
+    actual = @cruiser
+
     assert_instance_of expected, actual
   end
 
