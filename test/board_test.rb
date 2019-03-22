@@ -220,7 +220,7 @@ class BoardTest < Minitest::Test
 ## And just like with cells, we will include an optional argument to indicate whether we want to show hidden ships.
 
   def test_board_rendering
-skip
+
     @board.place(@cruiser, ["A1", "A2", "A3"])
 
     expected =  "  1 2 3 4 \n" +

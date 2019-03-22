@@ -133,62 +133,40 @@ class Board
     @cells.keys.each do |row|
       rows << row[0]
     end
-
+    # => ["A", "B", "C", "D"]
 
     columns = []
     @cells.keys.each do |column|
       columns << column[1]
     end
+    i = 0
 
     rows = rows.uniq
     columns = columns.uniq
-    binding.pry
 
-    "   #{rows.join("   ")}   \n" +
-    columns.each do |column|
-      p "#{column}  #{@cells[column + rows[column.ord - 64]]}"
+
+    p " "
+    p "#{columns.join(" ")}"
+
+    rows.each do |row|
+      print "\n#{row}"
+      columns.each do |column|
+        print " #{@cells["#{row}#{i + 1}"].render}"
+      end
+
+
     end
-
-
 
   end
 
+  # p " "
+  # p "#{columns.join(" ")}"
+  #
+  # rows.each do |row|
+  #   print "\n#{row}"
+  #   columns.each do |column|
+  #     print " #{@cells["#{row}#{i + 1}"].render}"
+  #   end
+
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  # def cells
-  #   i = 0
-  #   until i >= @cells_array.length
-  #     # binding.pry
-  #     @cells[@coordinates_array[i]] = @cells_array[i]
-  #     i += 1
-  #   end
-  #   @cells
-  # end
-
-  # Stretch the board dot renders out because double digits will push dots into the wrong places
-#
