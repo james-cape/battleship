@@ -29,11 +29,6 @@ class Board
     @cells.keys.include?(coordinate_array)
   end
 
-  # Need to put this in a helper method.
-  # Outputs potential column combinations.
-  # Will not currently work for 10 or more rows.
-
-
   def column_combos(ship)
     columns = []
     @cells.keys.each do |column|
@@ -52,7 +47,6 @@ class Board
     @cells.keys.each do |row|
       rows << row[0].ord - 64
     end
-    # rows => [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4]
 
     allowable_row_combos = []
     rows.uniq.each_cons(ship.length) do |combo|
@@ -60,7 +54,6 @@ class Board
       combo.each do |number|
         unscrambled_letters << (number + 64).chr
       end
-      # => ["A", "B", "C"]
 
       allowable_row_combos << unscrambled_letters
     end
@@ -69,30 +62,23 @@ class Board
 
 
   def valid_placement?(ship, coordinate_array)
-    # moved to bottom until we can implement the helper methods
-    # coordinate_array.length == ship.length
 
     column_combos = column_combos(ship)
     row_combos = row_combos(ship)
 
-    ### Need to put this in a helper method.
-    # Outputs array of columns the ship is in
-    # coordinate_array refers to the argument coming in with valid_placement?
     ship_columns = []
     coordinate_array.each do |coordinate|
       ship_columns << coordinate[1]
     end
     ship_columns
-    # => ["1", "2", "4"]
+
 
     ship_rows = []
     coordinate_array.each do |coordinate|
       ship_rows << coordinate[0]
     end
     ship_rows
-    # => ["A", "A", "A"]
 
-    ### Compare ship rows/columns with acceptable row/column arrays.
     columns_match = false
     rows_match = false
 
@@ -102,15 +88,12 @@ class Board
       end
     end
 
-
     row_combos.each do |row_combo|
       if row_combo == ship_rows
         rows_match = true
       end
     end
 
-
-##### The actual conditional statement that matters.
     coordinate_array.length == ship.length &&
     ((rows_match == true && columns_match == false) ||
      (rows_match == false && columns_match == true)) &&
@@ -118,22 +101,19 @@ class Board
        @cells[coordinate].empty?
      end
 
-#### Hopefully we can put everything else into helper methods.
   end
 
-#### If placement is valid,
   def place(ship, coordinates_array)
     coordinates_array.each do |coordinate|
       @cells[coordinate].place_ship(ship)
     end
   end
 
-  def render
+  def render(render = false)
     rows = []
     @cells.keys.each do |row|
       rows << row[0]
     end
-
 
     columns = []
     @cells.keys.each do |column|
@@ -142,53 +122,19 @@ class Board
 
     rows = rows.uniq
     columns = columns.uniq
-    binding.pry
 
-    "   #{rows.join("   ")}   \n" +
-    columns.each do |column|
-      p "#{column}  #{@cells[column + rows[column.ord - 64]]}"
+    header_rendering = "  #{columns.join(' ')} \n"
+    body_string = ""
+
+    rows.each do |row|
+      body_string += "#{row} "
+      columns.each do |column|
+        body_string += "#{@cells["#{row}#{column}"].render(render)} "
+      end
+
+      body_string += "\n"
     end
-
-
-
+    
+    board_rendering = header_rendering + body_string
   end
-
-
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  # def cells
-  #   i = 0
-  #   until i >= @cells_array.length
-  #     # binding.pry
-  #     @cells[@coordinates_array[i]] = @cells_array[i]
-  #     i += 1
-  #   end
-  #   @cells
-  # end
-
-  # Stretch the board dot renders out because double digits will push dots into the wrong places
-#
