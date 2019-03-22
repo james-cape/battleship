@@ -1,14 +1,14 @@
 require './lib/ship'
 
 class Cell
-  attr_reader :coordinate, :empty, :ship, :fired_upon, :render
+  attr_reader :coordinate, :empty, :ship, :fired_upon, :reveal
 
-  def initialize(coordinate, render = ".")
+  def initialize(coordinate, reveal = ".")
     @coordinate = coordinate
     @ship = nil
     @empty = true
     @fired_upon = false
-    @render = render
+    @reveal = reveal
   end
 
   def place_ship(ship)
@@ -31,17 +31,17 @@ class Cell
     end
   end
 
-  def render(render = false)
-    if    render == true  &&      @empty == false
+  def render(reveal = false)
+    if    reveal == true  &&      @empty == false
       "S"
-    elsif render == false && @fired_upon == true && @empty == true
+    elsif reveal == false && @fired_upon == true && @empty == true
       "M"
-    elsif render == false && @fired_upon == true && @ship.sunk?
+    elsif reveal == false && @fired_upon == true && @ship.sunk?
       "X"
-    elsif render == false && @fired_upon == true
+    elsif reveal == false && @fired_upon == true
       "H"
-    else  render == false && @fired_upon == false
-    "."
+    else  reveal == false && @fired_upon == false
+      "."
     end
 
   end

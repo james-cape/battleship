@@ -9,6 +9,7 @@ class BoardTest < Minitest::Test
 
   def setup
     @board = Board.new
+    # binding.pry
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
     @range = 3..8

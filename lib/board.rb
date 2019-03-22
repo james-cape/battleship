@@ -109,7 +109,7 @@ class Board
     end
   end
 
-  def render(render = false)
+  def render(reveal = false)
     rows = []
     @cells.keys.each do |row|
       rows << row[0]
@@ -129,12 +129,12 @@ class Board
     rows.each do |row|
       body_string += "#{row} "
       columns.each do |column|
-        body_string += "#{@cells["#{row}#{column}"].render(render)} "
+        body_string += "#{@cells["#{row}#{column}"].render(reveal)} "
       end
 
       body_string += "\n"
     end
-    
+
     board_rendering = header_rendering + body_string
   end
 end
