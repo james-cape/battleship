@@ -54,19 +54,19 @@ class Computer
       x = possible_vertical_configurations.uniq
       all_combos = x + y
 
-      computer_ships.each do |computer_ship|
+        
 
 
-        @board.place(computer_ship, all_combos.sample)
 
-        all_combos = all_combos - @board.occupied_cells
+
+        @board.place(ship, all_combos.sample)
+
+# binding.pry
+        # all_combos = all_combos - @board.occupied_cells
         # Mutiliate all_combos so occupied cells are removed.
 
-
-      end
-      @board.render(true)
-      binding.pry
     end
+binding.pry
   end
 
 

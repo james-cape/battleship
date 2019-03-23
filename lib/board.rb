@@ -103,7 +103,7 @@ class Board
 
   def place(ship, coordinates_array)
     coordinates_array.each do |coordinate|
-      @occupied_cells << coordinate
+      # @occupied_cells << coordinate
       @cells[coordinate].place_ship(ship)
     end
   end
