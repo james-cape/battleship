@@ -62,10 +62,52 @@ ships.each do |ship|
   end
 end  # End of ships.each
 
-# Player goes first.
+# Both boards are displayed with user's ships showing.
 puts "\n\n"
 puts "=============COMPUTER BOARD============="
 puts computer_board.render
 puts "==============PLAYER BOARD=============="
 puts user_board.render(true)
 puts "\n\n"
+
+# Player takes the first shot.
+puts "Enter the coordinate for your shot: "
+shot = gets.chomp
+
+# if invalid, user is reprompted until they enter a valid one.
+if computer_board.cells[shot].fired_upon == true || !computer_board.valid_coordinate?(shot)
+  puts "Your shot was off the board or already fired upon. Please enter a valid coordinate"
+  shot = gets.chomp
+else
+  if computer_board.cells[shot].empty?
+    computer_board.cells[shot].fire_upon
+    puts "Your shot on #{shot} was a miss."
+  else
+    computer_board.cells[shot].fire_upon
+    puts "Your shot on #{shot} was a hit!"
+    if computer_board.cells[shot].ship.sunk?
+      puts "Your shot on #{shot} sunk the ship!"
+    end
+  end
+end
+# Both boards are displayed with user's ships showing.
+puts "\n\n"
+puts "=============COMPUTER BOARD============="
+puts computer_board.render
+puts "==============PLAYER BOARD=============="
+puts user_board.render(true)
+puts "\n\n"
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
