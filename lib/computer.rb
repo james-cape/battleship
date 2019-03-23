@@ -3,18 +3,15 @@ require './lib/ship'
 class Computer
 
 
-  def initialize(board)
+  def initialize(board, ships)
     @board = board
+    @computer_ships = ships
 
 
   end
 
   def feed_ships
-
-    computer_ships = [@cruiser = Ship.new("Cruiser", 3),
-      @submarine = Ship.new("Submarine", 2)]
-
-    computer_ships.each do |ship|
+    @computer_ships.each do |ship|
 
       possible_horizontal_configurations = []
       possible_ship_footprint = []
