@@ -34,10 +34,30 @@ class Computer
           end
         end
       end
-      possible_horizontal_configurations.uniq!
+      y = possible_horizontal_configurations.uniq!
+      # binding.pry
 
+      possible_vertical_configurations = []
+      possible_ship_footprint = []
+
+      @board.column_combos(ship).each do |col_combo|
+        col_combo.each do |col|
+          @board.row_combos(ship).each do |row_combo|
+            row_combo.each do |row|
+              possible_ship_footprint << row + col
+            end
+            possible_vertical_configurations << possible_ship_footprint
+            possible_ship_footprint = []
+          end
+        end
+      end
+
+      x = possible_vertical_configurations.uniq!
+
+      all_combos = x + y
+      # binding.pry
     end
-  
+
   end
 
 
