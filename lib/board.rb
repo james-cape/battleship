@@ -60,7 +60,6 @@ class Board
     allowable_row_combos
   end
 
-
   def valid_placement?(ship, coordinate_array)
 
     column_combos = column_combos(ship)
