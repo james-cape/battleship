@@ -34,8 +34,6 @@ The Cruiser is two units long and the Submarine is three units long.\n
 #{user_board.render(true)}\n"
 
 ships.each do |ship|
-
-# binding.pry
   cells_on_grid = false
   cells_consecutive = false
   cells_overlap = true
@@ -44,14 +42,14 @@ ships.each do |ship|
     puts "Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
     user_cells = gets.chomp.split(" ")
 
-### Decides _on_grid, _overlap, _consecutive
+####### Decides _on_grid, _overlap, _consecutive
     user_cells.each do |cell|
       cells_on_grid = true if user_board.valid_coordinate?(cell)
       cells_overlap = false if user_board.cells[cell].empty?
-      
+
     end
     cells_consecutive = true if user_board.valid_placement?(ship, user_cells)
-##
+########
 
     if cells_on_grid == false || cells_consecutive == false || cells_overlap == true
 
@@ -61,9 +59,13 @@ ships.each do |ship|
         user_board.cells[cell].place_ship(ship)
       end
     end
-
-
   end
+end  # End of ships.each
 
-
-end
+# Player goes first.
+puts "\n\n"
+puts "=============COMPUTER BOARD============="
+puts computer_board.render
+puts "==============PLAYER BOARD=============="
+puts user_board.render(true)
+puts "\n\n"
