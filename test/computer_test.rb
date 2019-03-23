@@ -22,12 +22,6 @@ class ComputerTest < Minitest::Test
     assert_instance_of expected, actual
   end
 
-  # def test_cruiser_exists
-  #   expected = Ship
-  #   actual = @cruiser
-  #   assert_instance_of expected, actual
-  # end
-
   def test_computer_exists
     expected = Computer
     actual = @computer

@@ -72,7 +72,6 @@ class Board
     end
     ship_columns
 
-
     ship_rows = []
     coordinate_array.each do |coordinate|
       ship_rows << coordinate[0]
@@ -100,11 +99,11 @@ class Board
      coordinate_array.all? do |coordinate|
        @cells[coordinate].empty?
      end
-
   end
 
   def place(ship, coordinates_array)
     coordinates_array.each do |coordinate|
+      @occupied_cells << coordinate
       @cells[coordinate].place_ship(ship)
     end
   end
