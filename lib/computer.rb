@@ -3,29 +3,42 @@ require './lib/ship'
 class Computer
 
 
-  def initialize(board, ship)
+  def initialize(board)
     @board = board
-    @ship = ship
-    @ships_array = []
-  end
 
-  def ships_array
-    @ships_array << @ship
-    # binding.pry
-  end
 
-  def pick_random_cell
-    @board.cells.keys.sample
-  end
-
-  def random_cardinal_direction
-    [1, 2, 3, 4].sample
   end
 
   def feed_ships
     [@cruiser = Ship.new("Cruiser", 3), @submarine = Ship.new("Submarine", 2)].each do |ship|
-      #Pick a random allowable row/column 
 
+
+# @board.row_combos(ship)
+# => [["A", "B", "C"], ["B", "C", "D"]]
+# @board.column_combos(ship)
+# => [["1", "2", "3"], ["2", "3", "4"]]
+
+      possible_configurations = []
+      possible_ship_footprint = []
+      @board.row_combos(ship).each do |row_combo|
+        row_combo.each do |row|
+          @board.column_combos(ship).each do |col_combo|
+            col_combo.each do |col|
+
+              # binding.pry
+              possible_ship_footprint << row + col
+              # binding.pry
+            end
+            possible_configurations 
+          end
+        end
+        possible_configurations
+      end
+      possible_configurations
+
+
+      binding.pry
+    end
   end
 
   # def generate_cell_names_with_ship

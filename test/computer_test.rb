@@ -13,7 +13,7 @@ class ComputerTest < Minitest::Test
 
 
     @computer_ships = []
-    @computer = Computer.new(@board, @computer.ships_array)
+    @computer = Computer.new(@board)
   end
 
   def test_board_exists
@@ -34,21 +34,12 @@ class ComputerTest < Minitest::Test
     assert_instance_of expected, actual
   end
 
-  def test_computer_random_cell
-    assert_instance_of String, @computer.pick_random_cell
+  def test_computer_randomly_places_two_ships
+    expected = 2
+    actual = @computer.feed_ships
+    assert_equal expected, actual
   end
 
-  def test_random_cardinal_direction
-    assert_instance_of Integer, @computer.random_cardinal_direction
-  end
-
-
-
-  def test_extends_cells_to_length_of_ship
-    expected = Array
-    actual = @computer.generate_cell_names_with_ship
-    assert_instance_of expected, actual
-  end
 
 
 
