@@ -13,7 +13,7 @@ ship_2 = Ship.new("Submarine", 2)
 ships = []
 ships << ship_1
 ships << ship_2
-# binding.pry
+
 user_board = Board.new
 computer_board = Board.new
 
@@ -35,27 +35,35 @@ The Cruiser is two units long and the Submarine is three units long.\n
 
 ships.each do |ship|
 
-  valid_cells = false
-  valid_footprint = false
-  until valid_cells == true && valid_footprint == true
+# binding.pry
+  cells_on_grid = false
+  cells_consecutive = false
+  cells_overlap = true
+  while cells_on_grid == false || cells_consecutive == false || cells_overlap == true
 
     puts "Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
     user_cells = gets.chomp.split(" ")
 
-
+### Decides _on_grid, _overlap, _consecutive
     user_cells.each do |cell|
-# binding.pry
-      valid_cells = true if user_board.valid_coordinate?(cell)
+      cells_on_grid = true if user_board.valid_coordinate?(cell)
+      cells_overlap = false if user_board.cells[cell].empty?
+      
     end
+    cells_consecutive = true if user_board.valid_placement?(ship, user_cells)
+##
 
-    valid_footprint = true if user_board.valid_placement?(ship, user_cells)
+    if cells_on_grid == false || cells_consecutive == false || cells_overlap == true
 
+      puts "Those are invalid coordinates. Please try again: "
+    else
+      user_cells.each do |cell|
+        user_board.cells[cell].place_ship(ship)
+      end
+    end
 
 
   end
 
 
 end
-
-
-# binding.pry
