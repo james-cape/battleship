@@ -29,9 +29,22 @@ play_or_quit = gets.chomp
 computer.feed_ships
 
 puts "I have laid out my ships on the grid.
-You now need to lay out your two ships.
+You now need to lay out your #{ships.length} ships.
 The Cruiser is two units long and the Submarine is three units long.\n
-#{user_board.render(true)}\n
-Enter the squares for the Cruiser (i.e. A1 A2 A3):"
+#{user_board.render(true)}\n"
 
-user_cells = gets.chomp # in format like A1 A2 A3
+ships.each do |ship|
+
+  puts "Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
+  user_cells = gets.chomp.split(" ")
+
+  user_cells.each do |cell|
+    user_board.valid_coordinate?(user_cells)
+  end
+
+  user_board.valid_placement?(ship, user_cells)
+# binding.pry
+end
+
+
+# binding.pry
