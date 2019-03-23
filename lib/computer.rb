@@ -53,13 +53,20 @@ class Computer
       end
       x = possible_vertical_configurations.uniq
       all_combos = x + y
+      ship_footprint = all_combos.sample
+        # If ship_footprint does conflict with @board.occupied_cells,
+        #   generate new ship footprint
+        # else
+        #   @board.place(ship, ship_footprint)
 
-        
+        ship_footprint.each do |cell|
+
+        end
 
 
 
 
-        @board.place(ship, all_combos.sample)
+        @board.place(ship, ship_footprint)
 
 # binding.pry
         # all_combos = all_combos - @board.occupied_cells
