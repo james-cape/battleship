@@ -15,13 +15,7 @@ class Computer
       @submarine = Ship.new("Submarine", 2)]
 
     computer_ships.each do |ship|
-# @board.row_combos(ship)
-# => [["A", "B", "C"], ["B", "C", "D"]]
-# @board.column_combos(ship)
-# => [["1", "2", "3"], ["2", "3", "4"]]
 
-# Can come back later and iterate through just [1, 2, 3, 4] to get all
-# potential vertical combos, and vice versa.
       possible_horizontal_configurations = []
       possible_ship_footprint = []
       @board.row_combos(ship).each do |row_combo|
@@ -54,28 +48,21 @@ class Computer
       x = possible_vertical_configurations.uniq
       all_combos = x + y
       ship_footprint = all_combos.sample
-        # If ship_footprint does conflict with @board.occupied_cells,
-        #   generate new ship footprint
-        # else
-        #   @board.place(ship, ship_footprint)
+
+      overlapping = false
+      if overlapping == true
+
+        ship_footprint = all_combos.sample
 
         ship_footprint.each do |cell|
-
+          overlapping = true if cell.empty? == false
         end
-
-
-
-
+      else
         @board.place(ship, ship_footprint)
-
-# binding.pry
-        # all_combos = all_combos - @board.occupied_cells
-        # Mutiliate all_combos so occupied cells are removed.
-
+      end
+      @board.place(ship, ship_footprint)
     end
-binding.pry
+
   end
-
-
 
 end
