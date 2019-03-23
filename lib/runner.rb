@@ -10,14 +10,19 @@ require 'pry'
 
 ship_1 = Ship.new("Cruiser", 3)
 ship_2 = Ship.new("Submarine", 2)
-ships = []
-ships << ship_1
-ships << ship_2
+ship_3 = Ship.new("Cruiser", 3)
+ship_4 = Ship.new("Submarine", 2)
+computer_ships = []
+user_ships = []
+computer_ships << ship_1
+computer_ships << ship_2
+user_ships << ship_3
+user_ships << ship_4
 
 user_board = Board.new
 computer_board = Board.new
 
-computer = Computer.new(computer_board, ships)
+computer = Computer.new(computer_board, computer_ships)
 
 
 puts "Welcome to BATTLESHIP"
@@ -29,11 +34,11 @@ play_or_quit = gets.chomp
 computer.feed_ships
 
 puts "I have laid out my ships on the grid.
-You now need to lay out your #{ships.length} ships.
+You now need to lay out your #{user_ships.length} ships.
 The Cruiser is two units long and the Submarine is three units long.\n
 #{user_board.render(true)}\n"
 
-ships.each do |ship|
+user_ships.each do |ship|
   cells_on_grid = false
   cells_consecutive = false
   cells_overlap = true
@@ -62,6 +67,8 @@ ships.each do |ship|
   end
 end  # End of ships.each
 
+
+available_computer_shots = user_board.cells.keys
 # Both boards are displayed with user's ships showing.
 puts "\n\n"
 puts "=============COMPUTER BOARD============="
@@ -79,11 +86,10 @@ if computer_board.cells[shot].fired_upon == true || !computer_board.valid_coordi
   puts "Your shot was off the board or already fired upon. Please enter a valid coordinate"
   shot = gets.chomp
 else
+  computer_board.cells[shot].fire_upon
   if computer_board.cells[shot].empty?
-    computer_board.cells[shot].fire_upon
     puts "Your shot on #{shot} was a miss."
   else
-    computer_board.cells[shot].fire_upon
     puts "Your shot on #{shot} was a hit!"
     if computer_board.cells[shot].ship.sunk?
       puts "Your shot on #{shot} sunk the ship!"
@@ -97,6 +103,24 @@ puts computer_board.render
 puts "==============PLAYER BOARD=============="
 puts user_board.render(true)
 puts "\n\n"
+
+## Computer takes a random shot
+computer_shot = available_computer_shots.sample
+available_computer_shots.delete(computer_shot)
+
+binding.pry
+if user_board.cells[shot].empty?
+  user_board.cells[shot].fire_upon
+  puts "My shot on #{shot} was a miss."
+else
+  user_board.cells[shot].fire_upon
+  puts "My shot on #{shot} was a hit!"
+  if user_board.cells[shot].ship.sunk?
+    puts "My shot on #{shot} sunk the ship!"
+  end
+  binding.pry
+end
+
 
 
 
