@@ -60,7 +60,6 @@ class Board
     allowable_row_combos
   end
 
-
   def valid_placement?(ship, coordinate_array)
 
     column_combos = column_combos(ship)
@@ -71,7 +70,6 @@ class Board
       ship_columns << coordinate[1]
     end
     ship_columns
-
 
     ship_rows = []
     coordinate_array.each do |coordinate|
@@ -100,7 +98,6 @@ class Board
      coordinate_array.all? do |coordinate|
        @cells[coordinate].empty?
      end
-
   end
 
   def place(ship, coordinates_array)

@@ -3,23 +3,15 @@ require './lib/ship'
 class Computer
 
 
-  def initialize(board)
+  def initialize(board, ships)
     @board = board
+    @computer_ships = ships
 
 
   end
 
   def feed_ships
-    [@cruiser = Ship.new("Cruiser", 3), @submarine = Ship.new("Submarine", 2)].each do |ship|
-
-
-# @board.row_combos(ship)
-# => [["A", "B", "C"], ["B", "C", "D"]]
-# @board.column_combos(ship)
-# => [["1", "2", "3"], ["2", "3", "4"]]
-
-# Can come back later and iterate through just [1, 2, 3, 4] to get all
-# potential vertical combos, and vice versa.
+    @computer_ships.each do |ship|
 
       possible_horizontal_configurations = []
       possible_ship_footprint = []
@@ -34,8 +26,7 @@ class Computer
           end
         end
       end
-      y = possible_horizontal_configurations.uniq!
-      # binding.pry
+      y = possible_horizontal_configurations.uniq
 
       possible_vertical_configurations = []
       possible_ship_footprint = []
@@ -51,15 +42,24 @@ class Computer
           end
         end
       end
-
-      x = possible_vertical_configurations.uniq!
-
+      x = possible_vertical_configurations.uniq
       all_combos = x + y
-      # binding.pry
+      ship_footprint = all_combos.sample
+
+      overlapping = false
+      if overlapping == true
+
+        ship_footprint = all_combos.sample
+
+        ship_footprint.each do |cell|
+          overlapping = true if cell.empty? == false
+        end
+      else
+        @board.place(ship, ship_footprint)
+      end
+      @board.place(ship, ship_footprint)
     end
 
   end
-
-
 
 end
