@@ -101,9 +101,10 @@ until computer_ships.all? { |ship| ship.sunk == true } || user_ships.all? { |shi
       else
         puts "Your shot on #{shot} was a hit!"
         if computer_board.cells[shot].ship.sunk?
-          puts "Your shot on #{shot} sunk the ship!"
+          puts "Your shot on #{shot} sunk a #{computer_board.cells[shot].ship.name.downcase}!"
           if computer_ships.all? { |ship| ship.sunk == true }
             puts "Game Over. You won!"
+            puts "=============GAME OVER===============\n"
             break
           end
         end
@@ -118,6 +119,7 @@ until computer_ships.all? { |ship| ship.sunk == true } || user_ships.all? { |shi
     computer_shot = available_computer_shots.sample
     available_computer_shots.delete(computer_shot)
     puts "\n==============COMPUTER SHOT=============="
+
       if user_board.cells[shot].empty?
         user_board.cells[shot].fire_upon
 
@@ -126,9 +128,10 @@ until computer_ships.all? { |ship| ship.sunk == true } || user_ships.all? { |shi
         user_board.cells[shot].fire_upon
         puts "My shot on #{shot} was a hit!"
         if user_board.cells[shot].ship.sunk?
-          puts "My shot on #{shot} sunk the ship!"
+          puts "My shot on #{shot} sunk a #{user_board.cells[shot].ship.name.downcase}!"
           if user_ships.all? { |ship| ship.sunk == true }
             puts "Game over. I - the computer - won!"
+            puts "===============GAME OVER===============\n"
             break
           end
         end
