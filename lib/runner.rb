@@ -42,10 +42,10 @@ while play_or_quit != "q"
 
     computer.feed_ships
 
-    puts "I have laid out my ships on the grid.
-    You now need to lay out your #{user_ships.length} ships.
-    The Cruiser is two units long and the Submarine is three units long.\n
-    #{user_board.render(true)}\n"
+    puts "I have laid out my ships on the grid."
+    puts "You now need to lay out your #{user_ships.length} ships."
+    puts "The Cruiser is two units long and the Submarine is three units long.\n"
+    puts "#{user_board.render(true)}"
 
     user_ships.each do |ship|
       cells_on_grid = false
