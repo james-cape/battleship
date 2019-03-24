@@ -6,7 +6,6 @@ require './lib/board'
 require './lib/computer'
 require 'pry'
 
-
 puts "Welcome to BATTLESHIP"
 puts "Enter p to play. Enter q to quit."
 play_or_quit = nil
