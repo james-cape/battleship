@@ -28,6 +28,7 @@ computer = Computer.new(computer_board, computer_ships)
 puts "Welcome to BATTLESHIP"
 puts "Enter p to play. Enter q to quit."
 
+
 play_or_quit = gets.chomp
 # if play_or_quit = "p", computer places ships
 # if play_or_quit = "q", program ends/exits.
@@ -85,13 +86,16 @@ until computer_ships.all? { |ship| ship.sunk == true } || user_ships.all? { |shi
     # Player takes the first shot.
     puts "Enter the coordinate for your shot: "
     shot = gets.chomp
+    puts "==============PLAYER SHOT=============="
 
     # if invalid, user is reprompted until they enter a valid one.
     if computer_board.cells[shot].fired_upon == true || !computer_board.valid_coordinate?(shot)
       puts "Your shot was off the board or already fired upon. Please enter a valid coordinate: "
       shot = gets.chomp
+
     else
       computer_board.cells[shot].fire_upon
+
       if computer_board.cells[shot].empty?
         puts "Your shot on #{shot} was a miss."
       else
@@ -113,9 +117,10 @@ until computer_ships.all? { |ship| ship.sunk == true } || user_ships.all? { |shi
     ## Computer takes a random shot
     computer_shot = available_computer_shots.sample
     available_computer_shots.delete(computer_shot)
-
+    puts "\n==============COMPUTER SHOT=============="
       if user_board.cells[shot].empty?
         user_board.cells[shot].fire_upon
+
         puts "My shot on #{shot} was a miss."
       else
         user_board.cells[shot].fire_upon
