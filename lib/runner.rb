@@ -23,7 +23,7 @@ while play_or_quit != "q"
     ship_2 = Ship.new("Submarine", 2)
     ship_3 = Ship.new("Cruiser", 3)
     ship_4 = Ship.new("Submarine", 2)
-    
+
     computer_ships = []
     user_ships = []
     computer_ships << ship_1
@@ -64,7 +64,6 @@ while play_or_quit != "q"
     ########
 
         if cells_on_grid == false || cells_consecutive == false || cells_overlap == true
-
           puts "Those are invalid coordinates. Please try again: "
         else
           user_cells.each do |cell|
@@ -73,7 +72,6 @@ while play_or_quit != "q"
         end
       end
     end  # End of ships placing ships
-
 
     available_computer_shots = user_board.cells.keys
 
@@ -121,10 +119,8 @@ while play_or_quit != "q"
           end
         end
 
-
         # Checks if all computer ships are sunk before allowing computer to take a shot.
         if user_ships.all? { |ship| ship.sunk == true }
-
         else
         ## Computer takes a random shot
         computer_shot = available_computer_shots.sample
@@ -147,8 +143,8 @@ while play_or_quit != "q"
                 break
               end
             end
-          end
-        end
+          end # End verbage output logic
+        end # End computer turn
       end
     end
 
