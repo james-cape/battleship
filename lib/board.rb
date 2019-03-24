@@ -50,7 +50,6 @@ class Board
   end
 
   def valid_placement?(ship, coordinate_array)
-
     column_combos = column_combos(ship)
     row_combos = row_combos(ship)
 
@@ -62,19 +61,12 @@ class Board
       coordinate[0]
     end
 
-    columns_match = false
-    rows_match = false
-
-    column_combos.each do |column_combo|
-      if column_combo == ship_columns
-        columns_match = true
-      end
+    columns_match = column_combos.any? do |column_combo|
+      column_combo == ship_columns
     end
 
-    row_combos.each do |row_combo|
-      if row_combo == ship_rows
-        rows_match = true
-      end
+    rows_match = row_combos.any? do |row_combo|
+      row_combo == ship_rows
     end
 
     coordinate_array.length == ship.length &&
@@ -92,42 +84,22 @@ class Board
   end
 
   def render(reveal = false)
-    rows = []
-    @cells.keys.each do |row|
-      rows << row[0]
-    end
+    rows = @cells.keys.map do |row|
+      row[0]
+    end.uniq
 
-    columns = []
-    @cells.keys.each do |column|
-      columns << column[1]
-    end
+    columns = @cells.keys.map do |column|
+      column[1]
+    end.uniq
 
-    rows = rows.uniq
-    columns = columns.uniq
-
-    header_rendering = "  #{columns.join(' ')} \n"
-    body_string = ""
-
+    rendered_string = "  #{columns.join(' ')} \n"
     rows.each do |row|
-      body_string += "#{row} "
+      rendered_string += "#{row} "
       columns.each do |column|
-        body_string += "#{@cells["#{row}#{column}"].render(reveal)} "
+        rendered_string += "#{@cells["#{row}#{column}"].render(reveal)} "
       end
-
-      body_string += "\n"
+      rendered_string += "\n"
     end
-
-    board_rendering = header_rendering + body_string
+    rendered_string
   end
-
-  def reset_board
-    @cells.values.each do |cell|
-      ship = nil
-      empty = true
-      fired_upon = false
-    end
-
-
-  end
-
 end
