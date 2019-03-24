@@ -33,28 +33,20 @@ class Board
       column[1]
     end
 
-    allowable_column_combos = []
-    columns.uniq.each_cons(ship.length) do |combo|
-      allowable_column_combos << combo
+    columns.uniq.each_cons(ship.length).map do |combo|
+      combo
     end
-    allowable_column_combos
   end
 
   def row_combos(ship)
     rows = @cells.keys.map do |row|
       row[0].ord
     end
-
-    allowable_row_combos = []
-    rows.uniq.each_cons(ship.length) do |combo|
-
-      unscrambled_letters = combo.map do |number|
+    rows.uniq.each_cons(ship.length).map do |combo|
+      combo.map do |number|
         number.chr
       end
-
-      allowable_row_combos << unscrambled_letters
     end
-    allowable_row_combos
   end
 
   def valid_placement?(ship, coordinate_array)
