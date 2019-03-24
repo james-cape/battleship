@@ -19,6 +19,11 @@ while play_or_quit != "q"
     puts "You did not enter p or q."
   else
 
+    puts "Enter a height for your board: "
+    height = gets.chomp
+    puts "Enter a width for your board: "
+    width = gets.chomp
+
     ship_1 = Ship.new("Cruiser", 3)
     ship_2 = Ship.new("Submarine", 2)
     ship_3 = Ship.new("Cruiser", 3)
