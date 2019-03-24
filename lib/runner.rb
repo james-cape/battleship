@@ -30,6 +30,14 @@ puts "Enter p to play. Enter q to quit."
 play_or_quit = nil
 
 while play_or_quit != "q"
+  computer_board.reset_board
+  user_board.reset_board
+  user_ships.each do |ship|
+    ship.reset_ship
+  end
+  computer_ships.each do |ship|
+    ship.reset_ship
+  end
 
   ### Need a reset board method in the board class.
 

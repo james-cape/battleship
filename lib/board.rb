@@ -1,9 +1,7 @@
 class Board
-  attr_reader :cells, :occupied_cells
+  attr_reader :cells
 
   def initialize
-    @occupied_cells = []
-
     @cells = {
       "A1" => Cell.new("A1"),
       "A2" => Cell.new("A2"),
@@ -134,4 +132,15 @@ class Board
 
     board_rendering = header_rendering + body_string
   end
+
+  def reset_board
+    @cells.values.each do |cell|
+      ship = nil
+      empty = true
+      fired_upon = false
+    end
+
+
+  end
+
 end

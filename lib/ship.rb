@@ -22,4 +22,9 @@ attr_reader :name, :length, :sunk, :health
     @health -= 1
   end
 
+  def reset_ship
+    @sunk = false
+    @health = @length
+  end
+
 end
