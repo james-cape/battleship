@@ -12,7 +12,7 @@ play_or_quit = nil
 
 while play_or_quit != "q"
 
-  play_or_quit = gets.chomp
+  play_or_quit = gets.chomp.downcase
   if play_or_quit == "q"
     break
   elsif play_or_quit != "q" && play_or_quit != "p"
@@ -90,27 +90,27 @@ while play_or_quit != "q"
 
         # Player takes the first shot.
         puts "Enter the coordinate for your shot: "
-        shot = gets.chomp.upcase
+        user_shot = gets.chomp.upcase
         puts "==============PLAYER SHOT=============="
 
-        while !computer_board.valid_coordinate?(shot)
+        while !computer_board.valid_coordinate?(user_shot)
           puts "Your shot was not a valid coordinate. Try again: "
-          shot = gets.chomp.upcase
+          user_shot = gets.chomp.upcase
         end
 
-        while computer_board.cells[shot].fired_upon == true
+        while computer_board.cells[user_shot].fired_upon == true
           puts "Your shot was in a spot already fired upon. Please enter another shot: "
-          shot = gets.chomp.upcase
+          user_shot = gets.chomp.upcase
         end
 
-        computer_board.cells[shot].fire_upon
+        computer_board.cells[user_shot].fire_upon
 
-        if computer_board.cells[shot].empty?
-          puts "Your shot on #{shot} was a miss."
+        if computer_board.cells[user_shot].empty?
+          puts "Your shot on #{user_shot} was a miss."
         else
-          puts "Your shot on #{shot} was a hit!"
-          if computer_board.cells[shot].ship.sunk?
-            puts "Your shot on #{shot} sunk a #{computer_board.cells[shot].ship.name.downcase}!"
+          puts "Your shot on #{user_shot} was a hit!"
+          if computer_board.cells[user_shot].ship.sunk?
+            puts "Your shot on #{user_shot} sunk a #{computer_board.cells[user_shot].ship.name.downcase}!"
             if computer_ships.all? { |ship| ship.sunk == true }
               puts "Game Over. You won!"
               puts "=============GAME OVER===============\n"
@@ -130,15 +130,15 @@ while play_or_quit != "q"
         available_computer_shots.delete(computer_shot)
         puts "\n==============COMPUTER SHOT=============="
 
-          if user_board.cells[shot].empty?
-            user_board.cells[shot].fire_upon
+          if user_board.cells[computer_shot].empty?
+            user_board.cells[computer_shot].fire_upon
 
-            puts "My shot on #{shot} was a miss."
+            puts "My shot on #{computer_shot} was a miss."
           else
-            user_board.cells[shot].fire_upon
-            puts "My shot on #{shot} was a hit!"
-            if user_board.cells[shot].ship.sunk?
-              puts "My shot on #{shot} sunk a #{user_board.cells[shot].ship.name.downcase}!"
+            user_board.cells[computer_shot].fire_upon
+            puts "My shot on #{computer_shot} was a hit!"
+            if user_board.cells[computer_shot].ship.sunk?
+              puts "My shot on #{computer_shot} sunk a #{user_board.cells[computer_shot].ship.name.downcase}!"
               if user_ships.all? { |ship| ship.sunk == true }
                 puts "Game over. I - the computer - won!"
                 puts "===============GAME OVER===============\n"

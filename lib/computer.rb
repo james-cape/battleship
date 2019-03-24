@@ -45,16 +45,6 @@ class Computer
       x = possible_vertical_configurations.uniq
       all_combos = x + y
 
-
-
-              # Check if chosen ship_footprint conflicts with cells that are not empty
-              # Iterate through each ship_footprint cell
-                # Check each cell to make sure it is empty
-                # If any cells are not empty, choose new ship_footprint from all_combos.sample
-                # If all cells are empty, place ship.
-
-
-
       has_overlapping = true
       while has_overlapping == true
 
@@ -64,23 +54,8 @@ class Computer
           @board.cells[cell].empty? == false
         end
 
-
       end
       @board.place(ship, ship_footprint)
-
-      # if overlapping == true
-      #
-      #   ship_footprint = all_combos.sample
-      #
-      #   ship_footprint.each do |cell|
-      #     overlapping = true if cell.empty? == false
-      #   end
-      # else
-      #   @board.place(ship, ship_footprint)
-      # end
-      # @board.place(ship, ship_footprint)
     end
-
   end
-
 end
