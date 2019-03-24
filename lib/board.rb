@@ -27,6 +27,7 @@ class Board
     @cells.keys.include?(coordinate_array)
   end
 
+#### automate separating letters from numbers, including double digits.
   def column_combos(ship)
     columns = []
     @cells.keys.each do |column|
@@ -43,14 +44,14 @@ class Board
   def row_combos(ship)
     rows = []
     @cells.keys.each do |row|
-      rows << row[0].ord - 64
+      rows << row[0].ord
     end
 
     allowable_row_combos = []
     rows.uniq.each_cons(ship.length) do |combo|
       unscrambled_letters = []
       combo.each do |number|
-        unscrambled_letters << (number + 64).chr
+        unscrambled_letters << (number).chr
       end
 
       allowable_row_combos << unscrambled_letters
