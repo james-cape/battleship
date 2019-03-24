@@ -108,12 +108,27 @@ while play_or_quit != "q"
         puts "Enter the coordinate for your shot: "
         shot = gets.chomp
         puts "==============PLAYER SHOT=============="
-
+# binding.pry
         # if invalid, user is reprompted until they enter a valid one.
-        if computer_board.cells[shot].fired_upon == true || !computer_board.valid_coordinate?(shot)
-          puts "Your shot was off the board or already fired upon. Please enter a valid coordinate: "
+
+
+        while !computer_board.valid_coordinate?(shot)
+          puts "Your shot was not a valid coordinate: "
           shot = gets.chomp
         end
+
+        while computer_board.cells[shot].fired_upon == true
+          puts "Your shot was in a spot already fired upon. Please enter another shot: "
+          shot = gets.chomp
+        end
+
+        #
+        #
+        #
+        # if computer_board.cells[shot].fired_upon == true || !computer_board.valid_coordinate?(shot)
+        #   puts "Your shot was off the board or already fired upon. Please enter a valid coordinate: "
+        #   shot = gets.chomp
+        # end
 
         computer_board.cells[shot].fire_upon
 
