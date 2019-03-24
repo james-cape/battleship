@@ -46,18 +46,30 @@ class Computer
       all_combos = x + y
       ship_footprint = all_combos.sample
 
-      overlapping = false
-      if overlapping == true
+      has_overlapping = true
+      while has_overlapping == true
 
         ship_footprint = all_combos.sample
 
-        ship_footprint.each do |cell|
-          overlapping = true if cell.empty? == false
+        has_overlapping = !ship_footprint.any? do |cell|
+          cell.empty? == false
         end
-      else
-        @board.place(ship, ship_footprint)
+
+
       end
       @board.place(ship, ship_footprint)
+
+      # if overlapping == true
+      #
+      #   ship_footprint = all_combos.sample
+      #
+      #   ship_footprint.each do |cell|
+      #     overlapping = true if cell.empty? == false
+      #   end
+      # else
+      #   @board.place(ship, ship_footprint)
+      # end
+      # @board.place(ship, ship_footprint)
     end
 
   end

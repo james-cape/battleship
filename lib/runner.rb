@@ -7,40 +7,11 @@ require './lib/computer'
 require 'pry'
 
 
-
-ship_1 = Ship.new("Cruiser", 3)
-ship_2 = Ship.new("Submarine", 2)
-ship_3 = Ship.new("Cruiser", 3)
-ship_4 = Ship.new("Submarine", 2)
-computer_ships = []
-user_ships = []
-computer_ships << ship_1
-computer_ships << ship_2
-user_ships << ship_3
-user_ships << ship_4
-
-user_board = Board.new
-computer_board = Board.new
-
-computer = Computer.new(computer_board, computer_ships)
-
-
 puts "Welcome to BATTLESHIP"
 puts "Enter p to play. Enter q to quit."
 play_or_quit = nil
 
 while play_or_quit != "q"
-  computer_board.reset_board
-  user_board.reset_board
-  user_ships.each do |ship|
-    ship.reset_ship
-  end
-  computer_ships.each do |ship|
-    ship.reset_ship
-  end
-
-  ### Need a reset board method in the board class.
-
 
   play_or_quit = gets.chomp
   if play_or_quit == "q"
@@ -49,10 +20,26 @@ while play_or_quit != "q"
     puts "You did not enter p or q."
   else
 
+    ship_1 = Ship.new("Cruiser", 3)
+    ship_2 = Ship.new("Submarine", 2)
+    ship_3 = Ship.new("Cruiser", 3)
+    ship_4 = Ship.new("Submarine", 2)
+    computer_ships = []
+    user_ships = []
+    computer_ships << ship_1
+    computer_ships << ship_2
+    user_ships << ship_3
+    user_ships << ship_4
+
+    user_board = Board.new
+    computer_board = Board.new
+
+    computer = Computer.new(computer_board, computer_ships)
+
+### Come back and try to implement ship.reset and board.reset to simplify above code.
 
 
-    # if play_or_quit = "p", computer places ships
-    # if play_or_quit = "q", program ends/exits.
+
     computer.feed_ships
 
     puts "I have laid out my ships on the grid.
@@ -99,7 +86,7 @@ while play_or_quit != "q"
         # Both boards are displayed with user's ships showing.
         puts "\n\n"
         puts "=============COMPUTER BOARD============="
-        puts computer_board.render
+        puts computer_board.render(true)
         puts "==============PLAYER BOARD=============="
         puts user_board.render(true)
         puts "\n\n"
@@ -108,12 +95,9 @@ while play_or_quit != "q"
         puts "Enter the coordinate for your shot: "
         shot = gets.chomp
         puts "==============PLAYER SHOT=============="
-# binding.pry
-        # if invalid, user is reprompted until they enter a valid one.
-
 
         while !computer_board.valid_coordinate?(shot)
-          puts "Your shot was not a valid coordinate: "
+          puts "Your shot was not a valid coordinate. Try again: "
           shot = gets.chomp
         end
 
@@ -121,14 +105,6 @@ while play_or_quit != "q"
           puts "Your shot was in a spot already fired upon. Please enter another shot: "
           shot = gets.chomp
         end
-
-        #
-        #
-        #
-        # if computer_board.cells[shot].fired_upon == true || !computer_board.valid_coordinate?(shot)
-        #   puts "Your shot was off the board or already fired upon. Please enter a valid coordinate: "
-        #   shot = gets.chomp
-        # end
 
         computer_board.cells[shot].fire_upon
 
