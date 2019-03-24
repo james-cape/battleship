@@ -1,14 +1,12 @@
-require './lib/ship'
-
 class Cell
   attr_reader :coordinate, :empty, :ship, :fired_upon, :reveal
 
   def initialize(coordinate, reveal = ".")
     @coordinate = coordinate
-    @ship = nil
-    @empty = true
+    @ship       = nil
+    @empty      = true
     @fired_upon = false
-    @reveal = reveal
+    @reveal     = reveal
   end
 
   def place_ship(ship)
@@ -40,10 +38,8 @@ class Cell
       "X"
     elsif @fired_upon == true
       "H"
-    else  @fired_upon == false
+    else
       "."
     end
-
   end
-
 end

@@ -42,6 +42,7 @@ class Board
     rows = @cells.keys.map do |row|
       row[0].ord
     end
+
     rows.uniq.each_cons(ship.length).map do |combo|
       combo.map do |number|
         number.chr

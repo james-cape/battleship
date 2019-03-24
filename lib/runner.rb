@@ -23,6 +23,7 @@ while play_or_quit != "q"
     ship_2 = Ship.new("Submarine", 2)
     ship_3 = Ship.new("Cruiser", 3)
     ship_4 = Ship.new("Submarine", 2)
+    
     computer_ships = []
     user_ships = []
     computer_ships << ship_1
