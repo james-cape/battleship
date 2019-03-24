@@ -65,60 +65,71 @@ user_ships.each do |ship|
       end
     end
   end
-end  # End of ships.each
+end  # End of ships placing ships
 
 
 available_computer_shots = user_board.cells.keys
-# Both boards are displayed with user's ships showing.
-puts "\n\n"
-puts "=============COMPUTER BOARD============="
-puts computer_board.render
-puts "==============PLAYER BOARD=============="
-puts user_board.render(true)
-puts "\n\n"
 
-# Player takes the first shot.
-puts "Enter the coordinate for your shot: "
-shot = gets.chomp
-
-# if invalid, user is reprompted until they enter a valid one.
-if computer_board.cells[shot].fired_upon == true || !computer_board.valid_coordinate?(shot)
-  puts "Your shot was off the board or already fired upon. Please enter a valid coordinate"
-  shot = gets.chomp
-else
-  computer_board.cells[shot].fire_upon
-  if computer_board.cells[shot].empty?
-    puts "Your shot on #{shot} was a miss."
+# Checks if all user ships are sunk before allowing user to take a shot.
+until computer_ships.all? { |ship| ship.sunk == true } || user_ships.all? { |ship| ship.sunk == true }
+  if computer_ships.all? { |ship| ship.sunk == true }
   else
-    puts "Your shot on #{shot} was a hit!"
-    if computer_board.cells[shot].ship.sunk?
-      puts "Your shot on #{shot} sunk the ship!"
+    # Both boards are displayed with user's ships showing.
+    puts "\n\n"
+    puts "=============COMPUTER BOARD============="
+    puts computer_board.render
+    puts "==============PLAYER BOARD=============="
+    puts user_board.render(true)
+    puts "\n\n"
+
+    # Player takes the first shot.
+    puts "Enter the coordinate for your shot: "
+    shot = gets.chomp
+
+    # if invalid, user is reprompted until they enter a valid one.
+    if computer_board.cells[shot].fired_upon == true || !computer_board.valid_coordinate?(shot)
+      puts "Your shot was off the board or already fired upon. Please enter a valid coordinate: "
+      shot = gets.chomp
+    else
+      computer_board.cells[shot].fire_upon
+      if computer_board.cells[shot].empty?
+        puts "Your shot on #{shot} was a miss."
+      else
+        puts "Your shot on #{shot} was a hit!"
+        if computer_board.cells[shot].ship.sunk?
+          puts "Your shot on #{shot} sunk the ship!"
+          if computer_ships.all? { |ship| ship.sunk == true }
+            puts "Game Over. You won!"
+            break
+          end
+        end
+      end
+    end
+
+    # Checks if all computer ships are sunk before allowing computer to take a shot.
+    if user_ships.all? { |ship| ship.sunk == true }
+
+    else
+    ## Computer takes a random shot
+    computer_shot = available_computer_shots.sample
+    available_computer_shots.delete(computer_shot)
+
+      if user_board.cells[shot].empty?
+        user_board.cells[shot].fire_upon
+        puts "My shot on #{shot} was a miss."
+      else
+        user_board.cells[shot].fire_upon
+        puts "My shot on #{shot} was a hit!"
+        if user_board.cells[shot].ship.sunk?
+          puts "My shot on #{shot} sunk the ship!"
+          if user_ships.all? { |ship| ship.sunk == true }
+            puts "Game over. I - the computer - won!"
+            break
+          end
+        end
+      end
     end
   end
-end
-# Both boards are displayed with user's ships showing.
-puts "\n\n"
-puts "=============COMPUTER BOARD============="
-puts computer_board.render
-puts "==============PLAYER BOARD=============="
-puts user_board.render(true)
-puts "\n\n"
-
-## Computer takes a random shot
-computer_shot = available_computer_shots.sample
-available_computer_shots.delete(computer_shot)
-
-binding.pry
-if user_board.cells[shot].empty?
-  user_board.cells[shot].fire_upon
-  puts "My shot on #{shot} was a miss."
-else
-  user_board.cells[shot].fire_upon
-  puts "My shot on #{shot} was a hit!"
-  if user_board.cells[shot].ship.sunk?
-    puts "My shot on #{shot} sunk the ship!"
-  end
-  binding.pry
 end
 
 
