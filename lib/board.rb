@@ -54,17 +54,13 @@ class Board
     column_combos = column_combos(ship)
     row_combos = row_combos(ship)
 
-    ship_columns = []
-    coordinate_array.each do |coordinate|
-      ship_columns << coordinate[1]
+    ship_columns = coordinate_array.map do |coordinate|
+      coordinate[1]
     end
-    ship_columns
 
-    ship_rows = []
-    coordinate_array.each do |coordinate|
-      ship_rows << coordinate[0]
+    ship_rows = coordinate_array.map do |coordinate|
+      coordinate[0]
     end
-    ship_rows
 
     columns_match = false
     rows_match = false
