@@ -10,10 +10,12 @@ class ComputerTest < Minitest::Test
 
   def setup
     @board = Board.new
-
-
+    @ship_1 = Ship.new("Cruiser", 3)
+    @ship_2 = Ship.new("Submarine", 2)
     @computer_ships = []
-    @computer = Computer.new(@board)
+    @computer_ships << @ship_1
+    @computer_ships << @ship_2
+    @computer = Computer.new(@board, @computer_ships)
   end
 
   def test_board_exists
@@ -30,18 +32,8 @@ class ComputerTest < Minitest::Test
 
   def test_computer_randomly_places_two_ships
     expected = 2
-    actual = @computer.feed_ships
+    actual = @computer.feed_ships.length
     assert_equal expected, actual
-  end
-
-
-
-
-  def test_computer_can_place_random_ships
-    skip
-    expected =
-    actual =
-    assert_instance_of expected, actual
   end
 
 end

@@ -32,7 +32,7 @@ class Cell
   end
 
   def render(reveal = false)
-    if    reveal      == true && @empty == false && @fired_upon == false
+    if         reveal == true && @empty == false && @fired_upon == false
       "S"
     elsif @fired_upon == true && @empty == true
       "M"

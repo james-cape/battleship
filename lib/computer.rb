@@ -46,18 +46,38 @@ class Computer
       all_combos = x + y
       ship_footprint = all_combos.sample
 
-      overlapping = false
-      if overlapping == true
+      has_overlapping = true
+      while has_overlapping == true
+
+        # Check if chosen ship_footprint conflicts with cells that are not empty
+        # Iterate through each ship_footprint cell
+          # Check each cell to make sure it is empty
+          # If any cells are not empty, choose new ship_footprint from all_combos.sample
+          # If all cells are empty, place ship.
+
 
         ship_footprint = all_combos.sample
 
-        ship_footprint.each do |cell|
-          overlapping = true if cell.empty? == false
+        has_overlapping = !ship_footprint.any? do |cell|
+          # binding.pry
+          @board.cells[cell].empty? == true
         end
-      else
-        @board.place(ship, ship_footprint)
+
+
       end
       @board.place(ship, ship_footprint)
+
+      # if overlapping == true
+      #
+      #   ship_footprint = all_combos.sample
+      #
+      #   ship_footprint.each do |cell|
+      #     overlapping = true if cell.empty? == false
+      #   end
+      # else
+      #   @board.place(ship, ship_footprint)
+      # end
+      # @board.place(ship, ship_footprint)
     end
 
   end
