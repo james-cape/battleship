@@ -38,8 +38,6 @@ while play_or_quit != "q"
 
 ### Come back and try to implement ship.reset and board.reset to simplify above code.
 
-
-
     computer.feed_ships
 
     puts "I have laid out my ships on the grid."
@@ -54,7 +52,7 @@ while play_or_quit != "q"
       while cells_on_grid == false || cells_consecutive == false || cells_overlap == true
 
         puts "Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
-        user_cells = gets.chomp.split(" ")
+        user_cells = gets.chomp.upcase.split(" ")
 
     ####### Decides _on_grid, _overlap, _consecutive
         user_cells.each do |cell|
@@ -93,17 +91,17 @@ while play_or_quit != "q"
 
         # Player takes the first shot.
         puts "Enter the coordinate for your shot: "
-        shot = gets.chomp
+        shot = gets.chomp.upcase
         puts "==============PLAYER SHOT=============="
 
         while !computer_board.valid_coordinate?(shot)
           puts "Your shot was not a valid coordinate. Try again: "
-          shot = gets.chomp
+          shot = gets.chomp.upcase
         end
 
         while computer_board.cells[shot].fired_upon == true
           puts "Your shot was in a spot already fired upon. Please enter another shot: "
-          shot = gets.chomp
+          shot = gets.chomp.upcase
         end
 
         computer_board.cells[shot].fire_upon
