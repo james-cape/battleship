@@ -1,11 +1,14 @@
 class Ship
-attr_reader :name, :length, :sunk, :health
+attr_reader :name,
+            :length,
+            :sunk,
+            :health
 
   def initialize(name, length)
-    @name = name
+    @name   = name
     @length = length
     @health = length
-    @sunk = false
+    @sunk   = false
   end
 
   def sunk?
@@ -23,8 +26,7 @@ attr_reader :name, :length, :sunk, :health
   end
 
   def reset_ship
-    @sunk = false
+    @sunk   = false
     @health = @length
   end
-
 end
