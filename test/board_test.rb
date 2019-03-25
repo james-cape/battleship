@@ -13,7 +13,7 @@ class BoardTest < Minitest::Test
     @cruiser   = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
     @range     = 3..8
-  
+
 
     @cell_1 = @board.cells["A1"]
     @cell_2 = @board.cells["A2"]
@@ -83,69 +83,6 @@ class BoardTest < Minitest::Test
   def test_previous_checks_pass_meaning_placement_should_be_valid
     assert_equal true, @board.valid_placement?(@submarine, ["A1", "A2"])
     assert_equal true, @board.valid_placement?(@cruiser, ["B1", "C1", "D1"])
-  end
-
-  def test_range_exists
-    range = 3..8
-
-    expected = Range
-    actual = range.class
-    assert_equal expected, actual
-  end
-
-
-  def test_array_object
-    range = 3..8
-
-    expected = [3, 4, 5, 6, 7, 8]
-    actual = range.to_a
-    assert_equal expected, actual
-  end
-
-  def test_array_length
-    range = 3..8
-    array = range.to_a
-
-    expected = 6
-    actual = array.length
-    assert_equal expected, actual
-  end
-
-  def test_array_element
-    range = 3..8
-    array = range.to_a
-
-    expected = 6
-    actual = array[3]
-    assert_equal expected, actual
-  end
-
-  def test_array_also_works_with_strings
-    range = "A".."D"
-
-    expected = ["A", "B", "C", "D"]
-    actual = range.to_a
-    assert_equal expected, actual
-  end
-
-  def test_array_also_works_with_strings_and_return_string
-    range = "A".."D"
-
-    expected = ["A", "B", "C", "D"]
-    actual = range.to_a
-    assert_equal expected, actual
-  end
-
-  def test_verify_ordinal_value
-    expected = 65
-    actual = "A".ord
-    assert_equal expected, actual
-  end
-
-  def test_verify_another_ordinal_value
-    expected = 68
-    actual = "D".ord
-    assert_equal expected, actual
   end
 
   def test_same_ship_is_on_cell_2_and_cell_3
