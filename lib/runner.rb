@@ -162,7 +162,12 @@ while play_or_quit != "q"
         # Checks if all computer ships are sunk before allowing computer to take a shot.
         if user_ships.all? { |ship| ship.sunk == true }
         else
+
+
+        ## Easy mode
         ## Computer takes a random shot
+
+
         computer_shot = available_computer_shots.sample
         available_computer_shots.delete(computer_shot)
         puts "\n==============COMPUTER SHOT=============="
@@ -188,18 +193,18 @@ while play_or_quit != "q"
       end
     end
 
-
   end
-
-
 
 end
 
+## Computer takes a random shot at a cell that appears in the most combos
 
+# If previous shot was a hit, cycle around and chase until ship is sunk.
 
-
-
-
-
-
+# if previous shot was a miss, pick another random cell that appears in the most combos.
+#
+#
+# sleep(3)
+#
+##
 #
