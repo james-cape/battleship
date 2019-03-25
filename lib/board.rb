@@ -3,7 +3,7 @@ class Board
 
   def initialize(height = 4, width = 4)
     @rows = ("A"..(height.to_i + 64).chr).to_a #height => ["A", "B", "C", "D"]
-    @columns = ("1".rjust(2,'0')..width.to_s.rjust(2,'0')).to_a #width => ["1", "2", "3", "4"]
+    @columns = ("1"..width.to_s).to_a #width => ["1", "2", "3", "4"]
 
     @cells = {}
     @columns.each do |column|
@@ -76,7 +76,17 @@ class Board
   end
 
   def render(reveal = false)
-    rendered_string = "   #{@columns.join(' ')} \n"
+    rendered_string = "   "
+
+    columns.each do |column|
+      if column.to_i < 10
+        rendered_string += "#{column.rjust(2,'0')} "
+      else
+        rendered_string += "#{column} "
+      end
+    end
+    rendered_string += "\n"
+
     @rows.each do |row|
       rendered_string += "#{row}  "
       @columns.each do |column|
