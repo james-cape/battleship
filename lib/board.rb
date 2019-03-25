@@ -1,47 +1,30 @@
 class Board
-  attr_reader :cells
+  attr_reader :cells, :rows, :columns
 
   def initialize(height = 4, width = 4)
-
+    @rows = ("A"..(height.to_i + 64).chr).to_a #height => ["A", "B", "C", "D"]
+    @columns = ("1"..width.to_s).to_a #width => ["1", "2", "3", "4"]
 
     @cells = {}
-
-    # columns (width)
-    @columns = ("A"..(height.to_i + 64).chr).to_a #width
-
-    # rows (height)
-    @rows = (1..width.to_i).to_a #height
-
     @columns.each do |column|
       @rows.each do |row|
-        @cells[(column + row.to_s)] = Cell.new(column + row.to_s)
+        @cells[(row + column.to_s)] = Cell.new(row + column.to_s)
       end
     end
-
   end
 
   def valid_coordinate?(coordinate_array)
     @cells.keys.include?(coordinate_array)
   end
 
-#### automate separating letters from numbers, including double digits.
   def column_combos(ship)
-    columns = @cells.keys.map do |column|
-      column[1]
-    end
-    binding.pry
-
-    columns.uniq.each_cons(ship.length).map do |combo|
+    @columns.each_cons(ship.length).map do |combo|
       combo
     end
   end
 
   def row_combos(ship)
-    rows = @cells.keys.map do |row|
-      row[0].ord
-    end
-
-    rows.uniq.each_cons(ship.length).map do |combo|
+    @rows.each_cons(ship.length).map do |combo|
       combo.map do |number|
         number.chr
       end
@@ -83,18 +66,10 @@ class Board
   end
 
   def render(reveal = false)
-    rows = @cells.keys.map do |row|
-      row[0]
-    end.uniq
-
-    columns = @cells.keys.map do |column|
-      column[1]
-    end.uniq
-
-    rendered_string = "  #{columns.join(' ')} \n"
-    rows.each do |row|
+    rendered_string = "  #{@columns.join(' ')} \n"
+    @rows.each do |row|
       rendered_string += "#{row} "
-      columns.each do |column|
+      @columns.each do |column|
         rendered_string += "#{@cells["#{row}#{column}"].render(reveal)} "
       end
       rendered_string += "\n"

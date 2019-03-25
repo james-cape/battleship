@@ -45,7 +45,7 @@ while play_or_quit != "q"
     computer_board = Board.new(height, width)
 
 
-    binding.pry
+    # binding.pry
 
     computer = Computer.new(computer_board, computer_ships)
 
