@@ -27,14 +27,6 @@ while play_or_quit != "q"
     #     Include size limit like 40 x 40
     #     Reject negatives, 0, etc
 
-
-
-    # ship_1 = Ship.new("Cruiser", 3)
-    # ship_2 = Ship.new("Submarine", 2)
-    # ship_3 = Ship.new("Cruiser", 3)
-    # ship_4 = Ship.new("Submarine", 2)
-
-
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -54,15 +46,22 @@ while play_or_quit != "q"
     puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
 
-    all_ships = []
+    computer_ships = []
+    user_ships = []
+
+    # Need to limit size of ships to board length/width, and available space.
+
     another_ship = "S"
     while another_ship == "S"
       puts "\nEnter the type of ship: "
       ship_name = gets.chomp
       puts "\nEnter the ship's length: "
       ship_length = gets.chomp.to_i
-      ship = Ship.new(ship_name, ship_length)
-      all_ships << ship
+      computer_ship = Ship.new(ship_name, ship_length)
+      user_ship = Ship.new(ship_name, ship_length)
+
+      computer_ships << computer_ship
+      user_ships << user_ship
 
       puts "\nEnter S for another ship, or P to play"
       another_ship = gets.chomp.upcase
@@ -71,8 +70,6 @@ while play_or_quit != "q"
         another_ship = gets.chomp.upcase
       end
     end
-    computer_ships = all_ships
-    user_ships = all_ships
 
     user_board = Board.new(height, width)
     computer_board = Board.new(height, width)
@@ -97,14 +94,12 @@ while play_or_quit != "q"
         puts "Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
         user_cells = gets.chomp.upcase.split(" ")
 
-    ####### Decides _on_grid, _overlap, _consecutive
         user_cells.each do |cell|
           cells_on_grid = true if user_board.valid_coordinate?(cell)
           cells_overlap = false if user_board.cells[cell].empty?
 
         end
         cells_consecutive = true if user_board.valid_placement?(ship, user_cells)
-    ########
 
         if cells_on_grid == false || cells_consecutive == false || cells_overlap == true
           puts "Those are invalid coordinates. Please try again: "
@@ -125,7 +120,7 @@ while play_or_quit != "q"
         # Both boards are displayed with user's ships showing.
         puts "\n\n"
         puts "=============COMPUTER BOARD============="
-        puts computer_board.render
+        puts computer_board.render(true)
         puts "\n"
         puts "==============PLAYER BOARD=============="
         puts user_board.render(true)
@@ -158,6 +153,7 @@ while play_or_quit != "q"
               puts "Game Over. You won!"
               puts "=============GAME OVER===============\n"
               puts "Enter p to play again. Enter q to quit."
+              # Add computer vs user score
               break
             end
           end
