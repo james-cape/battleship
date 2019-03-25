@@ -13,7 +13,7 @@ class BoardTest < Minitest::Test
     @cruiser   = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
     @range     = 3..8
-    binding.pry
+  
 
     @cell_1 = @board.cells["A1"]
     @cell_2 = @board.cells["A2"]

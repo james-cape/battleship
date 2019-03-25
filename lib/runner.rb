@@ -23,6 +23,11 @@ while play_or_quit != "q"
     height = gets.chomp
     puts "Enter a width for your board: "
     width = gets.chomp
+    # ^^^ Include error if ships can't fit
+    #     Include size limit like 40 x 40
+    #     Reject negatives, 0, etc
+
+
 
     ship_1 = Ship.new("Cruiser", 3)
     ship_2 = Ship.new("Submarine", 2)
@@ -36,8 +41,11 @@ while play_or_quit != "q"
     user_ships << ship_3
     user_ships << ship_4
 
-    user_board = Board.new
-    computer_board = Board.new
+    user_board = Board.new(height, width)
+    computer_board = Board.new(height, width)
+
+
+    binding.pry
 
     computer = Computer.new(computer_board, computer_ships)
 
