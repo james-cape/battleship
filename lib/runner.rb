@@ -34,9 +34,6 @@ while play_or_quit != "q"
     # ship_3 = Ship.new("Cruiser", 3)
     # ship_4 = Ship.new("Submarine", 2)
 
-    computer_ships = []
-    user_ships = []
-    another_ship = "S"
 
     puts "\n"
     puts "\n"
@@ -56,23 +53,26 @@ while play_or_quit != "q"
     puts "            \\\\ =================================="
     puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
+
+    all_ships = []
+    another_ship = "S"
     while another_ship == "S"
-      puts "Enter the ship's name: "
+      puts "\nEnter the type of ship: "
       ship_name = gets.chomp
-      puts "Enter the ship's length: "
+      puts "\nEnter the ship's length: "
       ship_length = gets.chomp.to_i
+      ship = Ship.new(ship_name, ship_length)
+      all_ships << ship
 
-
-
+      puts "\nEnter S for another ship, or P to play"
+      another_ship = gets.chomp.upcase
+      while another_ship != "P" && another_ship != "S"
+        puts "Please re-enter P or S"
+        another_ship = gets.chomp.upcase
+      end
     end
-
-
-
-
-    computer_ships << ship_1
-    computer_ships << ship_2
-    user_ships << ship_3
-    user_ships << ship_4
+    computer_ships = all_ships
+    user_ships = all_ships
 
     user_board = Board.new(height, width)
     computer_board = Board.new(height, width)
