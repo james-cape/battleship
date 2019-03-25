@@ -21,27 +21,27 @@ class BoardTest < Minitest::Test
 
   def test_board_exists
     expected = Board
-    actual = @board
+    actual   = @board
     assert_instance_of expected, actual
   end
 
   def test_board_has_16_key_value_pairs
     expected = 16
-    actual = @board.cells.length
+    actual   = @board.cells.length
 
     assert_equal expected, actual
   end
 
   def test_board_is_a_hash
     expected = true
-    actual = @board.cells.kind_of?(Hash)
+    actual   = @board.cells.kind_of?(Hash)
     assert_equal expected, actual
   end
 
 
   def test_all_16_board_keys_point_to_cell_objects
     expected = true
-    actual = @board.cells.values.all? do |val|
+    actual   = @board.cells.values.all? do |val|
       val.kind_of?(Object)
     end
     assert_equal expected, actual
@@ -49,13 +49,13 @@ class BoardTest < Minitest::Test
 
   def test_first_key_value_pair_in_board_is_A1
     expected = "A1"
-    actual = @board.cells.keys[0]
+    actual   = @board.cells.keys[0]
     assert_equal expected, actual
   end
 
   def test_whether_coordinate_is_on_board_or_not
-    assert_equal true, @board.valid_coordinate?("A1")
-    assert_equal true, @board.valid_coordinate?("D4")
+    assert_equal true,  @board.valid_coordinate?("A1")
+    assert_equal true,  @board.valid_coordinate?("D4")
     assert_equal false, @board.valid_coordinate?("A5")
     assert_equal false, @board.valid_coordinate?("E1")
     assert_equal false, @board.valid_coordinate?("A22")
@@ -90,7 +90,7 @@ class BoardTest < Minitest::Test
     @cell_3.ship
 
     expected = true
-    actual = @cell_3.ship == @cell_2.ship
+    actual   = @cell_3.ship == @cell_2.ship
     assert_equal expected, actual
   end
 
