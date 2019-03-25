@@ -3,7 +3,7 @@ class Board
 
   def initialize(height = 4, width = 4)
     @rows = ("A"..(height.to_i + 64).chr).to_a #height => ["A", "B", "C", "D"]
-    @columns = ("1"..width.to_s).to_a #width => ["1", "2", "3", "4"]
+    @columns = ("1".rjust(2,'0')..width.to_s.rjust(2,'0')).to_a #width => ["1", "2", "3", "4"]
 
     @cells = {}
     @columns.each do |column|
@@ -37,8 +37,8 @@ class Board
 
     # .scan goes through the string ("A10") and looks for
     # blocks of character types (digits vs non-digits in our case).
-    #
-    # (/\d+|\D+/)
+    # It then puts each block in an array.
+    # What is (/\d+|\D+/)
     # \D is any non-digit
     # \d is any digit
     # The "+" is "one or more of"
@@ -76,11 +76,11 @@ class Board
   end
 
   def render(reveal = false)
-    rendered_string = "  #{@columns.join(' ')} \n"
+    rendered_string = "   #{@columns.join(' ')} \n"
     @rows.each do |row|
-      rendered_string += "#{row} "
+      rendered_string += "#{row}  "
       @columns.each do |column|
-        rendered_string += "#{@cells["#{row}#{column}"].render(reveal)} "
+        rendered_string += "#{@cells["#{row}#{column}"].render(reveal)}  "
       end
       rendered_string += "\n"
     end
