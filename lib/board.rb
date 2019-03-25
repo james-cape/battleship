@@ -2,10 +2,14 @@ class Board
   attr_reader :cells
 
   def initialize(height = 4, width = 4)
+
+
     @cells = {}
 
+    # columns (width)
     @columns = ("A"..(height.to_i + 64).chr).to_a #width
 
+    # rows (height)
     @rows = (1..width.to_i).to_a #height
 
     @columns.each do |column|
@@ -13,6 +17,7 @@ class Board
         @cells[(column + row.to_s)] = Cell.new(column + row.to_s)
       end
     end
+
   end
 
   def valid_coordinate?(coordinate_array)
@@ -24,6 +29,7 @@ class Board
     columns = @cells.keys.map do |column|
       column[1]
     end
+    binding.pry
 
     columns.uniq.each_cons(ship.length).map do |combo|
       combo
