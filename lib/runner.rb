@@ -29,13 +29,46 @@ while play_or_quit != "q"
 
 
 
-    ship_1 = Ship.new("Cruiser", 3)
-    ship_2 = Ship.new("Submarine", 2)
-    ship_3 = Ship.new("Cruiser", 3)
-    ship_4 = Ship.new("Submarine", 2)
+    # ship_1 = Ship.new("Cruiser", 3)
+    # ship_2 = Ship.new("Submarine", 2)
+    # ship_3 = Ship.new("Cruiser", 3)
+    # ship_4 = Ship.new("Submarine", 2)
 
     computer_ships = []
     user_ships = []
+    another_ship = "S"
+
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "           ,,=================================.."
+    puts "          //   _ _   _ _   _ _   _ _   _ _   _ ]]"
+    puts "    ..___//                                    }}"
+    puts "  //                                           ]]"
+    puts " // = = = = = = = = SHIP INFORMATION = = = = = \\\\"
+    puts "   --------              __-_ _-    _-___ _-    ]]"
+    puts "           \\\\          //   \\\\     //   \\\\      ]]"
+    puts "            \\\\ =================================="
+    puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    while another_ship == "S"
+      puts "Enter the ship's name: "
+      ship_name = gets.chomp
+      puts "Enter the ship's length: "
+      ship_length = gets.chomp.to_i
+
+
+
+    end
+
+
+
+
     computer_ships << ship_1
     computer_ships << ship_2
     user_ships << ship_3
@@ -43,9 +76,6 @@ while play_or_quit != "q"
 
     user_board = Board.new(height, width)
     computer_board = Board.new(height, width)
-
-
-    # binding.pry
 
     computer = Computer.new(computer_board, computer_ships)
 
@@ -96,6 +126,7 @@ while play_or_quit != "q"
         puts "\n\n"
         puts "=============COMPUTER BOARD============="
         puts computer_board.render
+        puts "\n"
         puts "==============PLAYER BOARD=============="
         puts user_board.render(true)
         puts "\n\n"
