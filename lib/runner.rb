@@ -79,7 +79,7 @@ while play_or_quit != "q"
 ### Come back and try to implement ship.reset and board.reset to simplify above code.
 
     computer.feed_ships
-
+puts computer_board.render(true)
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your #{user_ships.length} ships."
     puts "The Cruiser is two units long and the Submarine is three units long.\n"

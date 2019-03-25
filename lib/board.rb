@@ -63,11 +63,20 @@ class Board
 
     coordinate_array.length == ship.length &&
     ((rows_match == true && columns_match == false) ||
-     (rows_match == false && columns_match == true)) &&
-     coordinate_array.all? do |coordinate|
-       @cells[coordinate].empty?
-     end
+    (rows_match == false && columns_match == true)) &&
+    coordinate_array.all? do |coordinate|
+      @cells[coordinate].empty?
+    end
   end
+
+  def ship_columns(coordinate_array)
+    coordinate_array.map do |coordinate|
+      coordinate.scan(/\d+|\D+/)[1]
+    end
+  end
+
+
+
 
   def place(ship, coordinates_array)
     coordinates_array.each do |coordinate|
