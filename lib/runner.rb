@@ -95,7 +95,7 @@ while play_or_quit != "q"
         # Both boards are displayed with user's ships showing.
         puts "\n\n"
         puts "=============COMPUTER BOARD============="
-        puts computer_board.render(true)
+        puts computer_board.render
         puts "==============PLAYER BOARD=============="
         puts user_board.render(true)
         puts "\n\n"
