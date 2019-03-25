@@ -14,7 +14,6 @@ class BoardTest < Minitest::Test
     @submarine = Ship.new("Submarine", 2)
     @range     = 3..8
 
-
     @cell_1 = @board.cells["A1"]
     @cell_2 = @board.cells["A2"]
     @cell_3 = @board.cells["A3"]
@@ -32,7 +31,6 @@ class BoardTest < Minitest::Test
 
     assert_equal expected, actual
   end
-
 
   def test_board_is_a_hash
     expected = true
