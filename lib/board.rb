@@ -35,16 +35,6 @@ class Board
     column_combos = column_combos(ship)
     row_combos = row_combos(ship)
 
-    # .scan goes through the string ("A10") and looks for
-    # blocks of character types (digits vs non-digits in our case).
-    # It then puts each block in an array.
-    # What is (/\d+|\D+/)
-    # \D is any non-digit
-    # \d is any digit
-    # The "+" is "one or more of"
-    # The /...|.../ are the "beginning", "or", and "end" of the regex.
-
-    # We can now validate user placing ships on double digit coordinates.
     ship_columns = coordinate_array.map do |coordinate|
       coordinate.scan(/\d+|\D+/)[1]
     end
@@ -67,10 +57,16 @@ class Board
   def check_conditionals(ship, coordinate_array, rows_match, columns_match)
     coordinate_array.length == ship.length &&
     ((rows_match == true && columns_match == false) ||
-     (rows_match == false && columns_match == true)) &&
-     coordinate_array.all? do |coordinate|
-       @cells[coordinate].empty?
-     end
+    (rows_match == false && columns_match == true)) &&
+    coordinate_array.all? do |coordinate|
+      @cells[coordinate].empty?
+    end
+  end
+
+  def ship_columns(coordinate_array)
+    coordinate_array.map do |coordinate|
+      coordinate.scan(/\d+|\D+/)[1]
+    end
   end
 
   def place(ship, coordinates_array)

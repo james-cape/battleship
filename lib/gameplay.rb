@@ -3,18 +3,9 @@ class Gameplay
   attr_reader :play_or_quit,
               :computer_ships,
               :user_ships,
-              :available_computer_shots,
               :another_ship
 
   def initialize
-    @play_or_quit = nil
-    @computer_ships = []
-    @user_ships = []
-    @available_computer_shots = []
-    @another_ship == "S"
-    # @user_board == {}
-    # @computer_board == {}
-    # @available_computer_shots = user_board.cells.keys
   end
 
   def start
@@ -30,11 +21,13 @@ class Gameplay
     check_if_user_ships_all_sunk
     computer_takes_shot
     evaluate_computer_shot
-
   end
 
-
   def start_menu
+    @play_or_quit = nil
+    @computer_ships = []
+    @user_ships = []
+    @another_ship == "S"
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     @play_or_quit = gets.chomp.downcase
@@ -66,8 +59,8 @@ class Gameplay
     @user_board = Board.new(height, width)
     @computer_board = Board.new(height, width)
     @computer = Computer.new(@computer_board, computer_ships)
+    @available_computer_shots = @user_board.cells.keys
     # Need to limit size of ships to board length/width, and available space.
-
   end
 
   def input_ships
@@ -95,7 +88,7 @@ class Gameplay
   end
 
   def input_another_ship
-    # @another_ship == "S"
+    @another_ship = "S"
     while @another_ship == "S"
       puts "\nEnter the type of ship: "
       ship_name = gets.chomp
@@ -106,7 +99,6 @@ class Gameplay
 
       @computer_ships << computer_ship
       @user_ships << user_ship
-
       puts "\nEnter S for another ship, or P to play"
       @another_ship = gets.chomp.upcase
       while @another_ship != "P" && @another_ship != "S"
@@ -117,24 +109,32 @@ class Gameplay
   end
 
   def computer_places_ships
-  @computer.feed_ships
+    @computer.feed_ships
   end
 
   def user_places_ships
+    # ##### for testing
+    # @user_ships = [["Sub", 3]]
+    # height = 4
+    # width  = 4
+    # @user_board = Board.new(height, width)
+    #
+    # #####
     puts "I have laid out my ships on the grid."
-    puts "You now need to lay out your #{user_ships.length} ships."
+    puts "You now need to lay out your #{@user_ships.length} ships."
     puts "The Cruiser is two units long and the Submarine is three units long.\n"
     puts "#{@user_board.render(true)}"
 
-    user_ships.each do |ship|
+    @user_ships.each do |ship|
       cells_on_grid = false
       cells_consecutive = false
       cells_overlap = true
       while cells_on_grid == false || cells_consecutive == false || cells_overlap == true
 
         puts "Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
-        user_cells = gets.chomp.upcase.split(" ")
+        user_cells = gets.chomp.upcase.split(" ").sort
 
+        # binding.pry
         user_cells.each do |cell|
           cells_on_grid = true if @user_board.valid_coordinate?(cell)
           cells_overlap = false if @user_board.cells[cell].empty?
@@ -166,6 +166,8 @@ class Gameplay
         puts "==============PLAYER BOARD=============="
         puts @user_board.render(true)
         puts "\n\n"
+        player_takes_shot
+        computer_takes_shot
       end
     end
   end
@@ -186,9 +188,10 @@ class Gameplay
       user_shot = gets.chomp.upcase
     end
     @computer_board.cells[user_shot].fire_upon
+    evaluate_user_shot(user_shot)
   end
 
-  def evaluate_user_shot
+  def evaluate_user_shot(user_shot)
     if @computer_board.cells[user_shot].empty?
       puts "Your shot on #{user_shot} was a miss."
     else
@@ -197,10 +200,9 @@ class Gameplay
         puts "Your shot on #{user_shot} sunk a #{@computer_board.cells[user_shot].ship.name.downcase}!"
         if computer_ships.all? { |ship| ship.sunk == true }
           puts "Game Over. You won!"
-          puts "=============GAME OVER===============\n"
-          puts "Enter p to play again. Enter q to quit."
+          puts "=============GAME OVER===============\n\n\n\n"
+          start
           # Add computer vs user score
-
         end
       end
     end
@@ -214,14 +216,14 @@ class Gameplay
   end
 
   def computer_takes_shot
-    computer_shot = available_computer_shots.sample
-    available_computer_shots.delete(computer_shot)
+    computer_shot = @available_computer_shots.sample
+    @available_computer_shots.delete(computer_shot)
     puts "\n==============COMPUTER SHOT=============="
 
-    evaluate_computer_shot
-  end # End computer turn
+    evaluate_computer_shot(computer_shot)
+  end
 
-  def evaluate_computer_shot
+  def evaluate_computer_shot(computer_shot)
     if @user_board.cells[computer_shot].empty?
       @user_board.cells[computer_shot].fire_upon
 
@@ -233,11 +235,23 @@ class Gameplay
         puts "My shot on #{computer_shot} sunk a #{@user_board.cells[computer_shot].ship.name.downcase}!"
         if user_ships.all? { |ship| ship.sunk == true }
           puts "Game over. I - the computer - won!"
-          puts "===============GAME OVER===============\n"
-          puts "Enter p to play again. Enter q to quit."
-
+          puts "===============GAME OVER===============\n\n\n\n"
+          start
         end
       end
-    end # End verbage output logic
+    end
+  end
+
+  def computer_chases_hits
+    #    #                        index - rows.length index - 1  0   index + 1    index + rows.length
+    #                    ########              #           #     x     #           #
+    #  # computer_board.cells.keys => ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
+    #  # computer_board.cells.keys.index(computer_shot) => 0
+    #  next_target = []
+    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - 1]
+    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + 1]
+    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - computer_board.rows.length]
+    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + computer_board.rows.length]
+    # # binding.pry
   end
 end
