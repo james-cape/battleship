@@ -4,8 +4,9 @@ class Board
   def initialize(height = 4, width = 4)
     @rows = ("A"..(height.to_i + 64).chr).to_a
     @columns = ("1"..width.to_s).to_a
-
+#decide on max
     @cells = {}
+    #REPETITIVE
     @rows.each do |row|
       @columns.each do |column|
         @cells[(row + column.to_s)] = Cell.new(row + column.to_s)
@@ -55,17 +56,12 @@ class Board
   end
 
   def check_conditionals(ship, coordinate_array, rows_match, columns_match)
+    #Too complicated/Refactor doing 2 jobs ~
     coordinate_array.length == ship.length &&
     ((rows_match == true && columns_match == false) ||
     (rows_match == false && columns_match == true)) &&
     coordinate_array.all? do |coordinate|
       @cells[coordinate].empty?
-    end
-  end
-
-  def ship_columns(coordinate_array)
-    coordinate_array.map do |coordinate|
-      coordinate.scan(/\d+|\D+/)[1]
     end
   end
 
