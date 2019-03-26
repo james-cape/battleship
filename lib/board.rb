@@ -2,8 +2,8 @@ class Board
   attr_reader :cells, :rows, :columns
 
   def initialize(height = 4, width = 4)
-    @rows = ("A"..(height.to_i + 64).chr).to_a #height => ["A", "B", "C", "D"]
-    @columns = ("1"..width.to_s).to_a #width => ["1", "2", "3", "4"]
+    @rows = ("A"..(height.to_i + 64).chr).to_a
+    @columns = ("1"..width.to_s).to_a
 
     @cells = {}
     @columns.each do |column|
@@ -61,6 +61,10 @@ class Board
       row_combo == ship_rows
     end
 
+    check_conditionals(ship, coordinate_array, rows_match, columns_match)
+  end
+
+  def check_conditionals(ship, coordinate_array, rows_match, columns_match)
     coordinate_array.length == ship.length &&
     ((rows_match == true && columns_match == false) ||
      (rows_match == false && columns_match == true)) &&
@@ -76,17 +80,11 @@ class Board
   end
 
   def render(reveal = false)
-    rendered_string = "   "
-
+    rendered_string = "  "
     columns.each do |column|
-      if column.to_i < 10
-        rendered_string += "#{column.rjust(2,'0')} "
-      else
-        rendered_string += "#{column} "
-      end
+        rendered_string += "#{column.rjust(2,' ')} "
     end
     rendered_string += "\n"
-
     @rows.each do |row|
       rendered_string += "#{row}  "
       @columns.each do |column|
