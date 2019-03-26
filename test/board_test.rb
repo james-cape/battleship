@@ -108,7 +108,7 @@ class BoardTest < Minitest::Test
   def test_board_rendering
     @board.place(@cruiser, ["A1", "A2", "A3"])
 
-    expected =  "    1  2  3  4 \n" +
+    expected =  "   1  2  3  4 \n" +
                 "A  .  .  .  .  \n" +
                 "B  .  .  .  .  \n" +
                 "C  .  .  .  .  \n" +
@@ -121,7 +121,7 @@ class BoardTest < Minitest::Test
   def test_board_rendering_with_optional_true____the_S
     @board.place(@cruiser, ["A1", "A2", "A3"])
 
-    expected =  "    1  2  3  4 \n" +
+    expected =  "   1  2  3  4 \n" +
                 "A  S  S  S  .  \n" +
                 "B  .  .  .  .  \n" +
                 "C  .  .  .  .  \n" +
