@@ -88,7 +88,7 @@ class Gameplay
   end
 
   def input_another_ship
-    # @another_ship == "S"
+    @another_ship = "S"
     while @another_ship == "S"
       puts "\nEnter the type of ship: "
       ship_name = gets.chomp
@@ -99,7 +99,6 @@ class Gameplay
 
       @computer_ships << computer_ship
       @user_ships << user_ship
-
       puts "\nEnter S for another ship, or P to play"
       @another_ship = gets.chomp.upcase
       while @another_ship != "P" && @another_ship != "S"
@@ -110,24 +109,32 @@ class Gameplay
   end
 
   def computer_places_ships
-  @computer.feed_ships
+    @computer.feed_ships
   end
 
   def user_places_ships
+    # ##### for testing
+    # @user_ships = [["Sub", 3]]
+    # height = 4
+    # width  = 4
+    # @user_board = Board.new(height, width)
+    #
+    # #####
     puts "I have laid out my ships on the grid."
-    puts "You now need to lay out your #{user_ships.length} ships."
+    puts "You now need to lay out your #{@user_ships.length} ships."
     puts "The Cruiser is two units long and the Submarine is three units long.\n"
     puts "#{@user_board.render(true)}"
 
-    user_ships.each do |ship|
+    @user_ships.each do |ship|
       cells_on_grid = false
       cells_consecutive = false
       cells_overlap = true
       while cells_on_grid == false || cells_consecutive == false || cells_overlap == true
 
         puts "Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
-        user_cells = gets.chomp.upcase.split(" ")
+        user_cells = gets.chomp.upcase.split(" ").sort
 
+        binding.pry
         user_cells.each do |cell|
           cells_on_grid = true if @user_board.valid_coordinate?(cell)
           cells_overlap = false if @user_board.cells[cell].empty?

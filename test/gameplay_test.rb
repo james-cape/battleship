@@ -80,11 +80,11 @@ class GameplayTest < Minitest::Test
     width  = 4
     user_board = Board.new(height, width)
     computer_board = Board.new(height, width)
-    another_ship = "S"
-    ship_name = "Carrier"
-    ship_length = 5
-    binding.pry
-    gameplay.input_another_ship
+
+
+    gameplay.user_places_ships
+
+    # gameplay.input_another_ship
 
     expected = 1
     actual   = gameplay.computer_ships

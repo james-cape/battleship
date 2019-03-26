@@ -27,4 +27,9 @@ require 'pry'
 
 
 
-# 
+# Need to be able to put in coordinates in any order and .sort
+
+
+# ruby path/to/test_file.rb --name test_method_nam
+
+# Look into storing ship coordinates in each ship's class object.
