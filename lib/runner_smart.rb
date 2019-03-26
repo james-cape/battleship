@@ -164,21 +164,35 @@ while play_or_quit != "q"
         else
 
 
-        ## Easy mode
-        ## Computer takes a random shot
+          ## Easy mode
+          ## Computer takes a random shot                             
 
 
-        computer_shot = available_computer_shots.sample
-        available_computer_shots.delete(computer_shot)
-        puts "\n==============COMPUTER SHOT=============="
+          computer_shot = available_computer_shots.sample
+
+
+          available_computer_shots.delete(computer_shot)
+          puts "\n==============COMPUTER SHOT=============="
 
           if user_board.cells[computer_shot].empty?
             user_board.cells[computer_shot].fire_upon
-
             puts "My shot on #{computer_shot} was a miss."
           else
             user_board.cells[computer_shot].fire_upon
             puts "My shot on #{computer_shot} was a hit!"
+              #                        index - rows.length index - 1  0   index + 1    index + rows.length
+                              ########              #           #     x     #           #
+            # computer_board.cells.keys => ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
+            # computer_board.cells.keys.index(computer_shot) => 0
+            next_target = []
+            next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - 1]
+            next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + 1]
+            next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - computer_board.rows.length]
+            next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + computer_board.rows.length]
+
+            binding.pry
+
+
             if user_board.cells[computer_shot].ship.sunk?
               puts "My shot on #{computer_shot} sunk a #{user_board.cells[computer_shot].ship.name.downcase}!"
               if user_ships.all? { |ship| ship.sunk == true }

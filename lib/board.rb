@@ -6,8 +6,8 @@ class Board
     @columns = ("1"..width.to_s).to_a
 
     @cells = {}
-    @columns.each do |column|
-      @rows.each do |row|
+    @rows.each do |row|
+      @columns.each do |column|
         @cells[(row + column.to_s)] = Cell.new(row + column.to_s)
       end
     end
