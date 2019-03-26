@@ -1,3 +1,8 @@
+require './lib/ship'
+require './lib/cell'
+require './lib/board'
+require './lib/computer'
+
 class Gameplay
 
   attr_reader :play_or_quit,
@@ -155,8 +160,8 @@ class Gameplay
 
   def check_if_user_ships_all_sunk
     # Checks if all user ships are sunk before allowing user to take a shot.
-    until computer_ships.all? { |ship| ship.sunk == true } || user_ships.all? { |ship| ship.sunk == true }
-      if computer_ships.all? { |ship| ship.sunk == true }
+    until computer_ships.all? { |ship| ship.sunk? } || user_ships.all? { |ship| ship.sunk? }
+      if computer_ships.all? { |ship| ship.sunk? }
       else
         # Both boards are displayed with user's ships showing.
         puts "\n\n"
@@ -198,7 +203,7 @@ class Gameplay
       puts "Your shot on #{user_shot} was a hit!"
       if @computer_board.cells[user_shot].ship.sunk?
         puts "Your shot on #{user_shot} sunk a #{@computer_board.cells[user_shot].ship.name.downcase}!"
-        if computer_ships.all? { |ship| ship.sunk == true }
+        if computer_ships.all? { |ship| ship.sunk? }
           puts "Game Over. You won!"
           puts "=============GAME OVER===============\n\n\n\n"
           start
@@ -209,7 +214,7 @@ class Gameplay
   end
 
   def check_if_computer_ships_all_sunk
-    if user_ships.all? { |ship| ship.sunk == true }
+    if user_ships.all? { |ship| ship.sunk? }
     else
       computer_takes_shot
     end
@@ -233,7 +238,7 @@ class Gameplay
       puts "My shot on #{computer_shot} was a hit!"
       if @user_board.cells[computer_shot].ship.sunk?
         puts "My shot on #{computer_shot} sunk a #{@user_board.cells[computer_shot].ship.name.downcase}!"
-        if user_ships.all? { |ship| ship.sunk == true }
+        if user_ships.all? { |ship| ship.sunk? }
           puts "Game over. I - the computer - won!"
           puts "===============GAME OVER===============\n\n\n\n"
           start
@@ -255,3 +260,6 @@ class Gameplay
     # # binding.pry
   end
 end
+
+gameplay = Gameplay.new
+gameplay.start
