@@ -232,6 +232,19 @@ class Gameplay
           start
         end
       end
-    end 
+    end
+  end
+
+  def computer_chases_hits
+    #    #                        index - rows.length index - 1  0   index + 1    index + rows.length
+    #                    ########              #           #     x     #           #
+    #  # computer_board.cells.keys => ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
+    #  # computer_board.cells.keys.index(computer_shot) => 0
+    #  next_target = []
+    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - 1]
+    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + 1]
+    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - computer_board.rows.length]
+    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + computer_board.rows.length]
+    # # binding.pry
   end
 end
