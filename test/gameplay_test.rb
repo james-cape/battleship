@@ -73,8 +73,7 @@ class GameplayTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_input_ships
-
+  def test_user_inputs_ships
     gameplay = Gameplay.new
     play_or_quit = "p"
     height = 4
@@ -88,7 +87,7 @@ class GameplayTest < Minitest::Test
     gameplay.input_another_ship
 
     expected = 1
-    actual   = computer_ships.length
+    actual   = gameplay.computer_ships
     assert_equal expected, actual
 
   end

@@ -3,13 +3,18 @@ class Gameplay
   attr_reader :play_or_quit,
               :computer_ships,
               :user_ships,
-              :available_computer_shots
+              :available_computer_shots,
+              :another_ship
 
   def initialize
     @play_or_quit = nil
     @computer_ships = []
     @user_ships = []
     @available_computer_shots = []
+    @another_ship == "S"
+    @user_board == {}
+    @computer_board == {}
+    @computer = Computer.new
     # @available_computer_shots = user_board.cells.keys
   end
 
@@ -33,7 +38,7 @@ class Gameplay
   def start_menu
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
-    play_or_quit = gets.chomp.downcase
+    @play_or_quit = gets.chomp.downcase
   end
 
   def input_play_or_quit
@@ -59,9 +64,9 @@ class Gameplay
     # ^^^ Include error if ships can't fit
     #     Include size limit like 40 x 40
     #     Reject negatives, 0, etc
-    user_board = Board.new(height, width)
-    computer_board = Board.new(height, width)
-    computer = Computer.new(computer_board, computer_ships)
+    @user_board = Board.new(height, width)
+    @computer_board = Board.new(height, width)
+    @computer = Computer.new(computer_board, computer_ships)
     # Need to limit size of ships to board length/width, and available space.
 
   end
@@ -86,13 +91,13 @@ class Gameplay
     puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
 
-    another_ship = "S"
+    @another_ship = "S"
     input_another_ship
   end
 
   def input_another_ship
-    another_ship == "S"
-    while another_ship == "S"
+    # @another_ship == "S"
+    while @another_ship == "S"
       puts "\nEnter the type of ship: "
       ship_name = gets.chomp
       puts "\nEnter the ship's length: "
@@ -100,14 +105,14 @@ class Gameplay
       computer_ship = Ship.new(ship_name, ship_length)
       user_ship = Ship.new(ship_name, ship_length)
 
-      computer_ships << computer_ship
-      user_ships << user_ship
+      @computer_ships << computer_ship
+      @user_ships << user_ship
 
       puts "\nEnter S for another ship, or P to play"
-      another_ship = gets.chomp.upcase
-      while another_ship != "P" && another_ship != "S"
+      @another_ship = gets.chomp.upcase
+      while @another_ship != "P" && @another_ship != "S"
         puts "Please re-enter P or S"
-        another_ship = gets.chomp.upcase
+        @another_ship = gets.chomp.upcase
       end
     end
   end
