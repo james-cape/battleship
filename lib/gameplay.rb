@@ -167,6 +167,7 @@ class Gameplay
         puts @user_board.render(true)
         puts "\n\n"
         player_takes_shot
+        # computer_takes_shot
       end
     end
   end
@@ -187,9 +188,10 @@ class Gameplay
       user_shot = gets.chomp.upcase
     end
     @computer_board.cells[user_shot].fire_upon
+    evaluate_user_shot(user_shot)
   end
 
-  def evaluate_user_shot
+  def evaluate_user_shot(user_shot)
     if @computer_board.cells[user_shot].empty?
       puts "Your shot on #{user_shot} was a miss."
     else
