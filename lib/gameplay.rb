@@ -134,7 +134,7 @@ class Gameplay
         puts "Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
         user_cells = gets.chomp.upcase.split(" ").sort
 
-        binding.pry
+        # binding.pry
         user_cells.each do |cell|
           cells_on_grid = true if @user_board.valid_coordinate?(cell)
           cells_overlap = false if @user_board.cells[cell].empty?
