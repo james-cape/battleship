@@ -14,21 +14,6 @@ class Gameplay
   end
 
   def start
-    start_menu
-    input_play_or_quit
-    input_board_size
-    input_ships
-    computer_places_ships
-    user_places_ships
-    check_if_user_ships_all_sunk
-    player_takes_shot
-    evaluate_user_shot
-    check_if_user_ships_all_sunk
-    computer_takes_shot
-    evaluate_computer_shot
-  end
-
-  def start_menu
     @play_or_quit = nil
     @computer_ships = []
     @user_ships = []
@@ -36,16 +21,18 @@ class Gameplay
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     @play_or_quit = gets.chomp.downcase
+    input_play_or_quit(play_or_quit)
   end
 
-  def input_play_or_quit
+  def input_play_or_quit(play_or_quit)
     while play_or_quit != "q"
       if play_or_quit == "q"
         p "See ya"
         # sleep(1)
         break
       elsif play_or_quit == "p"
-        break
+        input_board_size
+
       else
         puts "You did not enter p or q."
         break
@@ -66,6 +53,7 @@ class Gameplay
     @computer = Computer.new(@computer_board, computer_ships)
     @available_computer_shots = @user_board.cells.keys
     # Need to limit size of ships to board length/width, and available space.
+    input_ships
   end
 
   def input_ships
@@ -110,11 +98,13 @@ class Gameplay
         puts "Please re-enter P or S"
         @another_ship = gets.chomp.upcase
       end
+      computer_places_ships
     end
   end
 
   def computer_places_ships
     @computer.feed_ships
+    user_places_ships
   end
 
   def user_places_ships
@@ -150,6 +140,7 @@ class Gameplay
         end
       end
     end
+    check_if_user_ships_all_sunk
   end
 
   def check_if_user_ships_all_sunk
@@ -240,19 +231,4 @@ class Gameplay
     end
   end
 
-  def computer_chases_hits
-    #    #                        index - rows.length index - 1  0   index + 1    index + rows.length
-    #                    ########              #           #     x     #           #
-    #  # computer_board.cells.keys => ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
-    #  # computer_board.cells.keys.index(computer_shot) => 0
-    #  next_target = []
-    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - 1]
-    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + 1]
-    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - computer_board.rows.length]
-    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + computer_board.rows.length]
-    # # binding.pry
-  end
 end
-
-gameplay = Gameplay.new
-gameplay.start
