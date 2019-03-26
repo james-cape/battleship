@@ -166,6 +166,7 @@ class Gameplay
         puts "==============PLAYER BOARD=============="
         puts @user_board.render(true)
         puts "\n\n"
+        player_takes_shot
       end
     end
   end
