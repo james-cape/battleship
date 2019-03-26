@@ -48,7 +48,6 @@ class Computer
     @board.place(ship, ship_footprint)
   end
 
-
   def feed_ships
     @computer_ships.each do |ship|
       all_combos = (possible_horizontal_footprints(ship) + possible_vertical_footprints(ship)).uniq
