@@ -52,16 +52,11 @@ while play_or_quit != "q"
     # Need to limit size of ships to board length/width, and available space.
 
     another_ship = "S"
-    ship_length = nil
     while another_ship == "S"
       puts "\nEnter the type of ship: "
       ship_name = gets.chomp
       puts "\nEnter the ship's length: "
       ship_length = gets.chomp.to_i
-      while ship_length < 1 || ship_length > [height, width].max.to_i
-        puts "\nTry a ship length between 1 and #{[height, width].max}: "
-        ship_length = gets.chomp.to_i
-      end
       computer_ship = Ship.new(ship_name, ship_length)
       user_ship = Ship.new(ship_name, ship_length)
 
