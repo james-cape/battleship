@@ -3,18 +3,9 @@ class Gameplay
   attr_reader :play_or_quit,
               :computer_ships,
               :user_ships,
-              :available_computer_shots,
               :another_ship
 
   def initialize
-    @play_or_quit = nil
-    @computer_ships = []
-    @user_ships = []
-    @available_computer_shots = []
-    @another_ship == "S"
-    # @user_board == {}
-    # @computer_board == {}
-    # @available_computer_shots = user_board.cells.keys
   end
 
   def start
@@ -30,11 +21,13 @@ class Gameplay
     check_if_user_ships_all_sunk
     computer_takes_shot
     evaluate_computer_shot
-
   end
 
-
   def start_menu
+    @play_or_quit = nil
+    @computer_ships = []
+    @user_ships = []
+    @another_ship == "S"
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     @play_or_quit = gets.chomp.downcase
@@ -68,7 +61,6 @@ class Gameplay
     @computer = Computer.new(@computer_board, computer_ships)
     @available_computer_shots = @user_board.cells.keys
     # Need to limit size of ships to board length/width, and available space.
-
   end
 
   def input_ships
@@ -201,10 +193,9 @@ class Gameplay
         puts "Your shot on #{user_shot} sunk a #{@computer_board.cells[user_shot].ship.name.downcase}!"
         if computer_ships.all? { |ship| ship.sunk == true }
           puts "Game Over. You won!"
-          puts "=============GAME OVER===============\n"
-          puts "Enter p to play again. Enter q to quit."
+          puts "=============GAME OVER===============\n\n\n\n"
+          start
           # Add computer vs user score
-
         end
       end
     end
@@ -223,7 +214,7 @@ class Gameplay
     puts "\n==============COMPUTER SHOT=============="
 
     evaluate_computer_shot(computer_shot)
-  end # End computer turn
+  end
 
   def evaluate_computer_shot(computer_shot)
     if @user_board.cells[computer_shot].empty?
@@ -237,11 +228,10 @@ class Gameplay
         puts "My shot on #{computer_shot} sunk a #{@user_board.cells[computer_shot].ship.name.downcase}!"
         if user_ships.all? { |ship| ship.sunk == true }
           puts "Game over. I - the computer - won!"
-          puts "===============GAME OVER===============\n"
-          puts "Enter p to play again. Enter q to quit."
-
+          puts "===============GAME OVER===============\n\n\n\n"
+          start
         end
       end
-    end # End verbage output logic
+    end 
   end
 end
