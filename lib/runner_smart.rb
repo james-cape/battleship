@@ -6,6 +6,8 @@ require './lib/board'
 require './lib/computer'
 require 'pry'
 
+next_target = []
+
 puts "Welcome to BATTLESHIP"
 puts "Enter p to play. Enter q to quit."
 play_or_quit = nil
@@ -57,6 +59,11 @@ while play_or_quit != "q"
       ship_name = gets.chomp
       puts "\nEnter the ship's length: "
       ship_length = gets.chomp.to_i
+      while ship_length < 1 || ship_length > [height.to_i, width.to_i].max
+
+        puts "\nTry a ship length between 1 and #{[height.to_i, width.to_i].max}: "
+        ship_length = gets.chomp.to_i
+      end
       computer_ship = Ship.new(ship_name, ship_length)
       user_ship = Ship.new(ship_name, ship_length)
 
@@ -165,11 +172,24 @@ while play_or_quit != "q"
 
 
           ## Easy mode
-          ## Computer takes a random shot                             
+          ## Computer takes a random shot
+          if next_target.empty?
 
+            computer_shot = available_computer_shots.sample
 
-          computer_shot = available_computer_shots.sample
+          else
 
+            computer_shot = next_target.sample
+            next_target.delete(computer_shot)
+
+            while computer_board.valid_coordinate?(computer_shot) == false || computer_board.cells[computer_shot].fired_upon? == true
+              computer_shot = next_target.sample
+              next_target.delete(computer_shot)
+              if next_target.empty?
+                computer_shot = available_computer_shots.sample
+              end
+            end
+          end
 
           available_computer_shots.delete(computer_shot)
           puts "\n==============COMPUTER SHOT=============="
@@ -190,7 +210,7 @@ while play_or_quit != "q"
             next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - computer_board.rows.length]
             next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + computer_board.rows.length]
 
-            binding.pry
+            # binding.pry
 
 
             if user_board.cells[computer_shot].ship.sunk?
