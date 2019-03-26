@@ -21,23 +21,24 @@ class Gameplay
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     @play_or_quit = gets.chomp.downcase
-    input_play_or_quit(play_or_quit)
+    input_play_or_quit
   end
 
-  def input_play_or_quit(play_or_quit)
-    while play_or_quit != "q"
-      if play_or_quit == "q"
-        p "See ya"
-        # sleep(1)
+  def input_play_or_quit
+    while @play_or_quit != "q"
+      if @play_or_quit == "q"
+
         break
-      elsif play_or_quit == "p"
+      elsif @play_or_quit == "p"
         input_board_size
 
       else
-        puts "You did not enter p or q."
-        break
+        puts "You did not enter p or q. Enter p or q: "
+        @play_or_quit = gets.chomp.downcase
       end
     end
+    p "See ya"
+    sleep(1.5)
   end
 
   def input_board_size
@@ -157,6 +158,7 @@ class Gameplay
         puts @user_board.render(true)
         puts "\n\n"
         player_takes_shot
+        sleep(2)
         computer_takes_shot
       end
     end
@@ -188,6 +190,13 @@ class Gameplay
       if @computer_board.cells[user_shot].ship.sunk?
         puts "Your shot on #{user_shot} sunk a #{@computer_board.cells[user_shot].ship.name.downcase}!"
         if computer_ships.all? { |ship| ship.sunk? }
+          puts "\n\n"
+          puts "=============COMPUTER BOARD============="
+          puts @computer_board.render(true)
+          puts "\n"
+          puts "==============PLAYER BOARD=============="
+          puts @user_board.render(true)
+          puts "\n\n"
           puts "Game Over. You won!"
           puts "=============GAME OVER===============\n\n\n\n"
           start
@@ -223,6 +232,13 @@ class Gameplay
       if @user_board.cells[computer_shot].ship.sunk?
         puts "My shot on #{computer_shot} sunk a #{@user_board.cells[computer_shot].ship.name.downcase}!"
         if user_ships.all? { |ship| ship.sunk? }
+          puts "\n\n"
+          puts "=============COMPUTER BOARD============="
+          puts @computer_board.render(true)
+          puts "\n"
+          puts "==============PLAYER BOARD=============="
+          puts @user_board.render(true)
+          puts "\n\n"
           puts "Game over. I - the computer - won!"
           puts "===============GAME OVER===============\n\n\n\n"
           start
