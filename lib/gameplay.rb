@@ -66,6 +66,7 @@ class Gameplay
     @user_board = Board.new(height, width)
     @computer_board = Board.new(height, width)
     @computer = Computer.new(@computer_board, computer_ships)
+    @available_computer_shots = @user_board.cells.keys
     # Need to limit size of ships to board length/width, and available space.
 
   end
@@ -167,7 +168,7 @@ class Gameplay
         puts @user_board.render(true)
         puts "\n\n"
         player_takes_shot
-        # computer_takes_shot
+        computer_takes_shot
       end
     end
   end
@@ -217,14 +218,14 @@ class Gameplay
   end
 
   def computer_takes_shot
-    computer_shot = available_computer_shots.sample
-    available_computer_shots.delete(computer_shot)
+    computer_shot = @available_computer_shots.sample
+    @available_computer_shots.delete(computer_shot)
     puts "\n==============COMPUTER SHOT=============="
 
-    evaluate_computer_shot
+    evaluate_computer_shot(computer_shot)
   end # End computer turn
 
-  def evaluate_computer_shot
+  def evaluate_computer_shot(computer_shot)
     if @user_board.cells[computer_shot].empty?
       @user_board.cells[computer_shot].fire_upon
 
