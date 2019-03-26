@@ -7,9 +7,9 @@ class Computer
 
   def possible_vertical_footprints(ship)
     possible_vertical_footprints = []
-    @board.column_combos(ship).each do |col_combo|
+    @board.ship_column_combos(ship).each do |col_combo|
       col_combo.each do |col|
-        @board.row_combos(ship).each do |row_combo|
+        @board.ship_row_combos(ship).each do |row_combo|
           possible_ship_footprint = row_combo.map do |row|
             row + col
           end
@@ -23,9 +23,9 @@ class Computer
 
   def possible_horizontal_footprints(ship)
     possible_horizontal_footprints = []
-    @board.row_combos(ship).each do |row_combo|
+    @board.ship_row_combos(ship).each do |row_combo|
       row_combo.each do |row|
-        @board.column_combos(ship).each do |col_combo|
+        @board.ship_column_combos(ship).each do |col_combo|
           possible_ship_footprint = col_combo.map do |col|
             row + col
           end
