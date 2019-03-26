@@ -118,13 +118,7 @@ class Gameplay
   end
 
   def user_places_ships
-    # ##### for testing
-    # @user_ships = [["Sub", 3]]
-    # height = 4
-    # width  = 4
-    # @user_board = Board.new(height, width)
-    #
-    # #####
+
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your #{@user_ships.length} ships."
     puts "The Cruiser is two units long and the Submarine is three units long.\n"
@@ -178,7 +172,6 @@ class Gameplay
   end
 
   def player_takes_shot
-    # Player takes the first shot.
     puts "Enter the coordinate for your shot: "
     user_shot = gets.chomp.upcase
     puts "==============PLAYER SHOT=============="
