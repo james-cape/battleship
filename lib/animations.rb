@@ -1,9 +1,30 @@
 class Animations
 
-  def initialize(computer_board, user_board)
+  def initialize(computer_board = nil, user_board = nil)
     @gameplay = Gameplay.new
     @computer_board = computer_board
     @user_board = user_board
+  end
+
+  def start_animation
+    puts "\e[H\e[2J"
+    puts "\n"
+    puts "\n"
+    puts "          __   _           __   _              __   _"
+    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "         (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n                     Welcome to BATTLESHIP"
+    puts "\n"
+    puts "\n                  Enter p to play or q to quit"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "           \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
   end
 
   def ship_screen
