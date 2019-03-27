@@ -9,7 +9,7 @@ class Gameplay
   end
 
   def start
-    @play_or_quit = nil
+    @play_or_quit = ""
     @computer_ships = []
     @user_ships = []
     @screen_message = ""
@@ -17,27 +17,13 @@ class Gameplay
     puts "\e[H\e[2J"
     start_animation
     @play_or_quit = gets.chomp.downcase
-    input_play_or_quit
-  end
 
-  def input_play_or_quit
-
-    while @play_or_quit != "q" && @play_or_quit != "p"
-      if @play_or_quit == "q"
-        break
-      elsif @play_or_quit == "p"
+    until @play_or_quit == "q"
+      if @play_or_quit == "p"
         input_board_size
-      else
-        puts "\n\n    You did not enter p or q. Enter p or q: "
+        puts "\e[H\e[2J"
+        start_animation
         @play_or_quit = gets.chomp.downcase
-      end
-    end
-
-    while @play_or_quit != "q"
-      if @play_or_quit == "q"
-        break
-      elsif @play_or_quit == "p"
-        input_board_size
       else
         puts "\n\n    You did not enter p or q. Enter p or q: "
         @play_or_quit = gets.chomp.downcase
@@ -129,11 +115,13 @@ class Gameplay
     until computer_ships.all? { |ship| ship.sunk? } || user_ships.all? { |ship| ship.sunk? }
       if computer_ships.all? { |ship| ship.sunk? }
       else
-        player_takes_shot
+        won = player_takes_shot
         @animations.display_boards(@computer_board, @user_board)
-        sleep(5)
-        computer_takes_shot
-        @animations.display_boards(@computer_board, @user_board)
+        if !won
+          sleep(5)
+          computer_takes_shot
+          @animations.display_boards(@computer_board, @user_board)
+        end
       end
     end
   end
@@ -155,7 +143,7 @@ class Gameplay
     end
     @computer_board.cells[user_shot].fire_upon
     @animations.warning_incoming
-    evaluate_user_shot(user_shot)
+    return evaluate_user_shot(user_shot)
   end
 
   def evaluate_user_shot(user_shot)
@@ -172,14 +160,17 @@ class Gameplay
           sleep(2)
           @animations.splode
           @animations.ending("You won!")
-          start
+          @play_or_quit = ""
+          return true
         end
       end
     end
+    return false
   end
 
   def check_if_computer_ships_all_sunk
     computer_takes_shot if !user_ships.all? { |ship| ship.sunk? }
+
   end
 
   def computer_takes_shot
@@ -201,15 +192,6 @@ class Gameplay
       puts "    My shot on #{computer_shot} was a hit!"
       if @user_board.cells[computer_shot].ship.sunk?
         puts "    My shot on #{computer_shot} sunk a #{@user_board.cells[computer_shot].ship.name.downcase}!"
-        if user_ships.all? { |ship| ship.sunk? }
-          @animations.display_boards(@computer_board, @user_board)
-          puts "    Game over. The computer won!"
-          puts "    ===============GAME OVER===============\n\n\n\n"
-          sleep(2)
-          @animations.splode
-          @animations.ending("The computer won!")
-          start
-        end
       end
     end
   end
