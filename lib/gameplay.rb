@@ -67,9 +67,16 @@ class Gameplay
       puts "\n    Enter the type of ship: "
       ship_name = gets.chomp
       puts "\n    Enter the ship's length: "
-      ship_length = gets.chomp.to_i
-      computer_ship = Ship.new(ship_name, ship_length)
-      user_ship = Ship.new(ship_name, ship_length)
+      ship_length = gets.chomp
+
+      until ship_length.to_i.between?(1, @computer_board.rows.length) && ship_length.to_i.between?(1, @computer_board.columns.length)
+        puts "\n    Ship's length must be less than board size and width (#{@computer_board.rows.length} x #{@computer_board.columns.length}). "
+        puts "\n    Please enter new ship size: "
+        ship_length = gets.chomp
+      end
+
+      computer_ship = Ship.new(ship_name, ship_length.to_i)
+      user_ship = Ship.new(ship_name, ship_length.to_i)
 
       @computer_ships << computer_ship
       @user_ships << user_ship
