@@ -21,6 +21,18 @@ class Gameplay
   end
 
   def input_play_or_quit
+
+    while @play_or_quit != "q" && @play_or_quit != "p"
+      if @play_or_quit == "q"
+        break
+      elsif @play_or_quit == "p"
+        input_board_size
+      else
+        puts "\n\n    You did not enter p or q. Enter p or q: "
+        @play_or_quit = gets.chomp.downcase
+      end
+    end
+
     while @play_or_quit != "q"
       if @play_or_quit == "q"
         break
@@ -119,23 +131,9 @@ class Gameplay
       else
         player_takes_shot
         @animations.display_boards(@computer_board, @user_board)
-        # puts "\n\n"
-        # puts "    =============COMPUTER BOARD============="
-        # puts @computer_board.render(true)
-        # puts "\n"
-        # puts "    ==============PLAYER BOARD=============="
-        # puts @user_board.render(true)
-        # puts "\n\n\n\n"
         sleep(5)
         computer_takes_shot
-        puts "\n\n"
-        puts "    =============COMPUTER BOARD============="
-        puts @computer_board.render(true)
-        puts "\n"
-        puts "    ==============PLAYER BOARD=============="
-        puts @user_board.render(true)
-        puts "\n\n\n"
-
+        @animations.display_boards(@computer_board, @user_board)
       end
     end
   end
@@ -156,12 +154,7 @@ class Gameplay
       user_shot = gets.chomp.upcase
     end
     @computer_board.cells[user_shot].fire_upon
-      print "    "
-    39.times do
-      print "-"
-      sleep(0.03)
-    end
-    print "\n"
+    @animations.warning_incoming
     evaluate_user_shot(user_shot)
   end
 
@@ -173,24 +166,12 @@ class Gameplay
       if @computer_board.cells[user_shot].ship.sunk?
         puts "    Your shot on #{user_shot} sunk a #{@computer_board.cells[user_shot].ship.name.downcase}!"
         if computer_ships.all? { |ship| ship.sunk? }
-          puts "\n\n"
-          puts "    =============COMPUTER BOARD============="
-          puts @computer_board.render(true)
-          puts "\n"
-          puts "    ==============PLAYER BOARD=============="
-          puts @user_board.render(true)
-          puts "\n"
+          @animations.display_boards(@computer_board, @user_board)
           puts "    Game Over. You won!"
           puts "    =============GAME OVER===============\n\n\n\n"
           sleep(2)
-          8.times do
-            puts "         |"
-            sleep(0.11)
-          end
-          puts "      'Splode'     "
-          sleep(2)
-          @screen_message = "You won!"
-          animation
+          @animations.splode
+          @animations.ending("You won!")
           start
         end
       end
@@ -206,12 +187,7 @@ class Gameplay
     @available_computer_shots.delete(computer_shot)
     puts "\e[H\e[2J"
     puts "\n    =============COMPUTER SHOT============="
-    print "    "
-  39.times do
-    print "-"
-    sleep(0.03)
-  end
-  print "\n"
+    @animations.warning_incoming
     evaluate_computer_shot(computer_shot)
   end
 
@@ -226,232 +202,18 @@ class Gameplay
       if @user_board.cells[computer_shot].ship.sunk?
         puts "    My shot on #{computer_shot} sunk a #{@user_board.cells[computer_shot].ship.name.downcase}!"
         if user_ships.all? { |ship| ship.sunk? }
-          puts "\n\n"
-          puts "    =============COMPUTER BOARD============="
-          puts @computer_board.render(true)
-          puts "\n"
-          puts "    ==============PLAYER BOARD=============="
-          puts @user_board.render(true)
-          puts "\n\n"
+          @animations.display_boards(@computer_board, @user_board)
           puts "    Game over. The computer won!"
           puts "    ===============GAME OVER===============\n\n\n\n"
           sleep(2)
-          8.times do
-            puts "         |"
-            sleep(0.11)
-          end
-          puts "      'Splode'     "
-          sleep(2)
-          @screen_message = "The computer won!"
-          animation
+          @animations.splode
+          @animations.ending("The computer won!")
           start
         end
       end
     end
   end
 
-  def animation
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                      #{@screen_message}"
-    puts "               ,,=================================.."
-    puts "              //   _ _   _ _   _ _   _ _   _ _   _ ]]"
-    puts "        ..___//                                    }}"
-    puts "      //                                           ]]"
-    puts "     // = = = = = = = = = = = = = = = = = = = = = = \\\\"
-    puts "       --------              __-_ _-    _-___ _-    ]]"
-    puts "               \\\\          //   \\\\     //   \\\\      ]]"
-    puts "                \\\\ =================================="
-    puts "       \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-    sleep(0.5)
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                      #{@screen_message}"
-    puts "\n"
-    puts "               ,,=================================.."
-    puts "              //   _ _   _ _   _ _   _ _   _ _   _ ]]"
-    puts "        ..___//                                    }}"
-    puts "      //                                           ]]"
-    puts "     // = = = = = = = = = = = = = = = = = = = = = = \\\\"
-    puts "       --------              __-_ _-    _-___ _-    ]]"
-    puts "               \\\\          //   \\\\     //   \\\\      ]]"
-    puts "          \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-    sleep(0.6)
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                      #{@screen_message}"
-    puts "\n"
-    puts "\n"
-    puts "               ,,=================================.."
-    puts "              //   _ _   _ _   _ _   _ _   _ _   _ ]]"
-    puts "        ..___//                                    }}"
-    puts "      //                                           ]]"
-    puts "     // = = = = = = = = = = = = = = = = = = = = = = \\\\"
-    puts "       --------              __-_ _-    _-___ _-    ]]"
-    puts "             \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-    sleep(0.6)
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                      #{@screen_message}"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "               ,,=================================.."
-    puts "              //   _ _   _ _   _ _   _ _   _ _   _ ]]"
-    puts "        ..___//                                    }}"
-    puts "      //                                           ]]"
-    puts "     // = = = = = = = = = = = = = = = = = = = = = = \\\\"
-    puts "          \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-    sleep(0.6)
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                      #{@screen_message}"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "               ,,=================================.."
-    puts "              //   _ _   _ _   _ _   _ _   _ _   _ ]]"
-    puts "        ..___//                                    }}"
-    puts "      //                                           ]]"
-    puts "        \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-    sleep(0.6)
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                      #{@screen_message}"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "               ,,=================================.."
-    puts "              //   _ _   _ _   _ _   _ _   _ _   _ ]]"
-    puts "        ..___//                                    }}"
-    puts "           \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-    sleep(0.6)
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                      #{@screen_message}"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "               ,,=================================.."
-    puts "              //   _ _   _ _   _ _   _ _   _ _   _ ]]"
-    puts "         \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-    sleep(0.6)
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                      #{@screen_message}"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "               ,,=================================.."
-    puts "          \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-    sleep(0.6)
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                      #{@screen_message}"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "         \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-    sleep(0.6)
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                      #{@screen_message}"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "           \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-    sleep(2)
-  end
 
   def start_animation
     puts "\e[H\e[2J"
