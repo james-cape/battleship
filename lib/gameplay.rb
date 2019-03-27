@@ -17,7 +17,7 @@ class Gameplay
     @play_or_quit = nil
     @computer_ships = []
     @user_ships = []
-    @another_ship == "S"
+    # @another_ship == "S"
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     @play_or_quit = gets.chomp.downcase
@@ -27,11 +27,9 @@ class Gameplay
   def input_play_or_quit
     while @play_or_quit != "q"
       if @play_or_quit == "q"
-
         break
       elsif @play_or_quit == "p"
         input_board_size
-
       else
         puts "You did not enter p or q. Enter p or q: "
         @play_or_quit = gets.chomp.downcase
@@ -45,14 +43,10 @@ class Gameplay
     height = gets.chomp
     puts "Enter a width for your board: "
     width = gets.chomp
-    # ^^^ Include error if ships can't fit
-    #     Include size limit like 40 x 40
-    #     Reject negatives, 0, etc
     @user_board = Board.new(height, width)
     @computer_board = Board.new(height, width)
     @computer = Computer.new(@computer_board, computer_ships)
     @available_computer_shots = @user_board.cells.keys
-    # Need to limit size of ships to board length/width, and available space.
     input_ships
   end
 
@@ -81,7 +75,7 @@ class Gameplay
   end
 
   def input_another_ship
-    @another_ship = "S"
+    # @another_ship = "S"
     while @another_ship == "S"
       puts "\nEnter the type of ship: "
       ship_name = gets.chomp
@@ -94,12 +88,13 @@ class Gameplay
       @user_ships << user_ship
       puts "\nEnter S for another ship, or P to play"
       @another_ship = gets.chomp.upcase
+      # binding.pry
       while @another_ship != "P" && @another_ship != "S"
         puts "Please re-enter P or S"
         @another_ship = gets.chomp.upcase
       end
-      computer_places_ships
     end
+    computer_places_ships
   end
 
   def computer_places_ships
@@ -108,27 +103,25 @@ class Gameplay
   end
 
   def user_places_ships
-
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your #{@user_ships.length} ships."
-    puts "The Cruiser is two units long and the Submarine is three units long.\n"
     puts "#{@user_board.render(true)}"
 
     @user_ships.each do |ship|
       cells_on_grid = false
       cells_consecutive = false
       cells_overlap = true
+
       while cells_on_grid == false || cells_consecutive == false || cells_overlap == true
 
         puts "Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
         user_cells = gets.chomp.upcase.split(" ").sort
 
-        # binding.pry
         user_cells.each do |cell|
           cells_on_grid = true if @user_board.valid_coordinate?(cell)
           cells_overlap = false if @user_board.cells[cell].empty?
-
         end
+
         cells_consecutive = true if @user_board.valid_placement?(ship, user_cells)
 
         if cells_on_grid == false || cells_consecutive == false || cells_overlap == true
@@ -144,11 +137,9 @@ class Gameplay
   end
 
   def check_if_user_ships_all_sunk
-    # Checks if all user ships are sunk before allowing user to take a shot.
     until computer_ships.all? { |ship| ship.sunk? } || user_ships.all? { |ship| ship.sunk? }
       if computer_ships.all? { |ship| ship.sunk? }
       else
-        # Both boards are displayed with user's ships showing.
         puts "\n\n"
         puts "=============COMPUTER BOARD============="
         puts @computer_board.render(true)
@@ -199,17 +190,13 @@ class Gameplay
           puts "Game Over. You won!"
           puts "=============GAME OVER===============\n\n\n\n"
           start
-          # Add computer vs user score
         end
       end
     end
   end
 
   def check_if_computer_ships_all_sunk
-    if user_ships.all? { |ship| ship.sunk? }
-    else
-      computer_takes_shot
-    end
+    computer_takes_shot if !user_ships.all? { |ship| ship.sunk? }
   end
 
   def computer_takes_shot
