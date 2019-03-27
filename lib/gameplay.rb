@@ -15,14 +15,15 @@ class Gameplay
     @screen_message = ""
 
     puts "\e[H\e[2J"
-    start_animation
+    @startup = Animations.new
+    @startup.start_animation
     @play_or_quit = gets.chomp.downcase
 
     until @play_or_quit == "q"
       if @play_or_quit == "p"
         input_board_size
         puts "\e[H\e[2J"
-        start_animation
+        @startup.start_animation
         @play_or_quit = gets.chomp.downcase
       else
         puts "\n\n    You did not enter p or q. Enter p or q: "
@@ -118,7 +119,7 @@ class Gameplay
         won = player_takes_shot
         @animations.display_boards(@computer_board, @user_board)
         if !won
-          sleep(5)
+          sleep(2)
           computer_takes_shot
           @animations.display_boards(@computer_board, @user_board)
         end
@@ -161,6 +162,8 @@ class Gameplay
           @animations.splode
           @animations.ending("You won!")
           @play_or_quit = ""
+          @user_ships = []
+          @computer_ships = []
           return true
         end
       end
@@ -170,8 +173,8 @@ class Gameplay
 
   def check_if_computer_ships_all_sunk
     computer_takes_shot if !user_ships.all? { |ship| ship.sunk? }
-
   end
+
 
   def computer_takes_shot
     computer_shot = @available_computer_shots.sample
@@ -192,30 +195,18 @@ class Gameplay
       puts "    My shot on #{computer_shot} was a hit!"
       if @user_board.cells[computer_shot].ship.sunk?
         puts "    My shot on #{computer_shot} sunk a #{@user_board.cells[computer_shot].ship.name.downcase}!"
+        if user_ships.all? { |ship| ship.sunk? }
+          @animations.display_boards(@computer_board, @user_board)
+          puts "    Game over. The computer won!"
+          puts "    ===============GAME OVER===============\n\n\n\n"
+          sleep(2)
+          @animations.splode
+          @animations.ending("The computer won!")
+          @play_or_quit = ""
+          return true
+        end
       end
     end
+    return false
   end
-
-
-  def start_animation
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n                     Welcome to BATTLESHIP"
-    puts "\n"
-    puts "\n                  Enter p to play or q to quit"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "           \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-  end
-
 end
