@@ -35,8 +35,19 @@ class Gameplay
   def input_board_size
     puts "\n\n    Enter a height for your board: "
     height = gets.chomp
+
+    until height.to_i.between?(1, 25)
+      puts "\n\n    Enter a height between 1 and 25 for your board: "
+      height = gets.chomp
+    end
+
     puts "\n\n    Enter a width for your board: "
     width = gets.chomp
+
+    until width.to_i.between?(1, 25)
+      puts "\n\n    Enter a width between 1 and 25 for your board: "
+      width = gets.chomp
+    end
     @user_board = Board.new(height, width)
     @computer_board = Board.new(height, width)
     @animations = Animations.new(@computer_board, @user_board)
@@ -56,9 +67,16 @@ class Gameplay
       puts "\n    Enter the type of ship: "
       ship_name = gets.chomp
       puts "\n    Enter the ship's length: "
-      ship_length = gets.chomp.to_i
-      computer_ship = Ship.new(ship_name, ship_length)
-      user_ship = Ship.new(ship_name, ship_length)
+      ship_length = gets.chomp
+
+      until ship_length.to_i.between?(1, @computer_board.rows.length) && ship_length.to_i.between?(1, @computer_board.columns.length)
+        puts "\n    Ship's length must be less than board size and width (#{@computer_board.rows.length} x #{@computer_board.columns.length}). "
+        puts "\n    Please enter new ship size: "
+        ship_length = gets.chomp
+      end
+
+      computer_ship = Ship.new(ship_name, ship_length.to_i)
+      user_ship = Ship.new(ship_name, ship_length.to_i)
 
       @computer_ships << computer_ship
       @user_ships << user_ship
