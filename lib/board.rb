@@ -71,13 +71,13 @@ class Board
   end
 
   def render(reveal = false)
-    rendered_string = "  "
+    rendered_string = "      "
     @columns.each do |column|
         rendered_string += "#{column.rjust(2,' ')} "
     end
     rendered_string += "\n"
     @rows.each do |row|
-      rendered_string += "#{row}  "
+      rendered_string += "    #{row}  "
       @columns.each do |column|
         rendered_string += "#{@cells["#{row}#{column}"].render(reveal)}  "
       end
