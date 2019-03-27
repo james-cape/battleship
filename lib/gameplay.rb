@@ -17,7 +17,7 @@ class Gameplay
     @play_or_quit = nil
     @computer_ships = []
     @user_ships = []
-    # @another_ship == "S"
+
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     @play_or_quit = gets.chomp.downcase
@@ -75,7 +75,7 @@ class Gameplay
   end
 
   def input_another_ship
-    # @another_ship = "S"
+
     while @another_ship == "S"
       puts "\nEnter the type of ship: "
       ship_name = gets.chomp
