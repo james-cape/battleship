@@ -107,7 +107,7 @@ class Gameplay
       cells_overlap = true
 
       while cells_on_grid == false || cells_consecutive == false || cells_overlap == true
-        puts "\n\n    Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
+        puts "\n    Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
         user_cells = gets.chomp.upcase.split(" ").sort
 
         user_cells.each do |cell|
@@ -136,7 +136,8 @@ class Gameplay
         won = player_takes_shot
         @animations.display_boards(@computer_board, @user_board)
         if !won
-          sleep(2)
+          # sleep(0.2)
+          @animations.display_boards(@computer_board, @user_board)
           computer_takes_shot
           @animations.display_boards(@computer_board, @user_board)
         end
@@ -145,9 +146,9 @@ class Gameplay
   end
 
   def player_takes_shot
+    @animations.display_boards(@computer_board, @user_board)
     puts "\n    Enter the coordinate for your shot: "
     user_shot = gets.chomp.upcase
-    puts "\e[H\e[2J"
     puts "\n    ==============PLAYER SHOT=============="
 
     while !@computer_board.valid_coordinate?(user_shot)
@@ -160,7 +161,7 @@ class Gameplay
       user_shot = gets.chomp.upcase
     end
     @computer_board.cells[user_shot].fire_upon
-    @animations.warning_incoming
+    @animations.warning_incoming(0.03)
     return evaluate_user_shot(user_shot)
   end
 
@@ -194,11 +195,12 @@ class Gameplay
 
 
   def computer_takes_shot
+    @animations.display_boards(@computer_board, @user_board)
     computer_shot = @available_computer_shots.sample
     @available_computer_shots.delete(computer_shot)
-    puts "\e[H\e[2J"
     puts "\n    =============COMPUTER SHOT============="
-    @animations.warning_incoming
+    sleep(0.3)
+    @animations.warning_incoming(0.09)
     evaluate_computer_shot(computer_shot)
   end
 

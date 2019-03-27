@@ -50,6 +50,7 @@ class Animations
   end
 
   def display_boards(computer_board, user_board)
+    puts "\e[H\e[2J"
     puts "\n\n"
     puts "    =============COMPUTER BOARD============="
     puts @computer_board.render(true)
@@ -68,11 +69,11 @@ class Animations
     sleep(2)
   end
 
-  def warning_incoming
+  def warning_incoming(time)
     print "    "
     39.times do
       print "-"
-      sleep(0.03)
+      sleep(time)
     end
   print "\n"
   end
