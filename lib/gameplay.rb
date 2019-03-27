@@ -14,43 +14,28 @@ class Gameplay
   end
 
   def start
-    start_menu
-    input_play_or_quit
-    input_board_size
-    input_ships
-    computer_places_ships
-    user_places_ships
-    check_if_user_ships_all_sunk
-    player_takes_shot
-    evaluate_user_shot
-    check_if_user_ships_all_sunk
-    computer_takes_shot
-    evaluate_computer_shot
-  end
-
-  def start_menu
     @play_or_quit = nil
     @computer_ships = []
     @user_ships = []
-    @another_ship == "S"
+    # @another_ship == "S"
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     @play_or_quit = gets.chomp.downcase
+    input_play_or_quit
   end
 
   def input_play_or_quit
-    while play_or_quit != "q"
-      if play_or_quit == "q"
-        p "See ya"
-        # sleep(1)
+    while @play_or_quit != "q"
+      if @play_or_quit == "q"
         break
-      elsif play_or_quit == "p"
-        break
+      elsif @play_or_quit == "p"
+        input_board_size
       else
-        puts "You did not enter p or q."
-        break
+        puts "You did not enter p or q. Enter p or q: "
+        @play_or_quit = gets.chomp.downcase
       end
     end
+  animation
   end
 
   def input_board_size
@@ -58,14 +43,11 @@ class Gameplay
     height = gets.chomp
     puts "Enter a width for your board: "
     width = gets.chomp
-    # ^^^ Include error if ships can't fit
-    #     Include size limit like 40 x 40
-    #     Reject negatives, 0, etc
     @user_board = Board.new(height, width)
     @computer_board = Board.new(height, width)
     @computer = Computer.new(@computer_board, computer_ships)
     @available_computer_shots = @user_board.cells.keys
-    # Need to limit size of ships to board length/width, and available space.
+    input_ships
   end
 
   def input_ships
@@ -93,7 +75,7 @@ class Gameplay
   end
 
   def input_another_ship
-    @another_ship = "S"
+    # @another_ship = "S"
     while @another_ship == "S"
       puts "\nEnter the type of ship: "
       ship_name = gets.chomp
@@ -106,45 +88,40 @@ class Gameplay
       @user_ships << user_ship
       puts "\nEnter S for another ship, or P to play"
       @another_ship = gets.chomp.upcase
+      # binding.pry
       while @another_ship != "P" && @another_ship != "S"
         puts "Please re-enter P or S"
         @another_ship = gets.chomp.upcase
       end
     end
+    computer_places_ships
   end
 
   def computer_places_ships
     @computer.feed_ships
+    user_places_ships
   end
 
   def user_places_ships
-    # ##### for testing
-    # @user_ships = [["Sub", 3]]
-    # height = 4
-    # width  = 4
-    # @user_board = Board.new(height, width)
-    #
-    # #####
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your #{@user_ships.length} ships."
-    puts "The Cruiser is two units long and the Submarine is three units long.\n"
     puts "#{@user_board.render(true)}"
 
     @user_ships.each do |ship|
       cells_on_grid = false
       cells_consecutive = false
       cells_overlap = true
+
       while cells_on_grid == false || cells_consecutive == false || cells_overlap == true
 
         puts "Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
         user_cells = gets.chomp.upcase.split(" ").sort
 
-        # binding.pry
         user_cells.each do |cell|
           cells_on_grid = true if @user_board.valid_coordinate?(cell)
           cells_overlap = false if @user_board.cells[cell].empty?
-
         end
+
         cells_consecutive = true if @user_board.valid_placement?(ship, user_cells)
 
         if cells_on_grid == false || cells_consecutive == false || cells_overlap == true
@@ -156,14 +133,13 @@ class Gameplay
         end
       end
     end
+    check_if_user_ships_all_sunk
   end
 
   def check_if_user_ships_all_sunk
-    # Checks if all user ships are sunk before allowing user to take a shot.
     until computer_ships.all? { |ship| ship.sunk? } || user_ships.all? { |ship| ship.sunk? }
       if computer_ships.all? { |ship| ship.sunk? }
       else
-        # Both boards are displayed with user's ships showing.
         puts "\n\n"
         puts "=============COMPUTER BOARD============="
         puts @computer_board.render(true)
@@ -172,13 +148,13 @@ class Gameplay
         puts @user_board.render(true)
         puts "\n\n"
         player_takes_shot
+        sleep(2)
         computer_takes_shot
       end
     end
   end
 
   def player_takes_shot
-    # Player takes the first shot.
     puts "Enter the coordinate for your shot: "
     user_shot = gets.chomp.upcase
     puts "==============PLAYER SHOT=============="
@@ -204,20 +180,23 @@ class Gameplay
       if @computer_board.cells[user_shot].ship.sunk?
         puts "Your shot on #{user_shot} sunk a #{@computer_board.cells[user_shot].ship.name.downcase}!"
         if computer_ships.all? { |ship| ship.sunk? }
+          puts "\n\n"
+          puts "=============COMPUTER BOARD============="
+          puts @computer_board.render(true)
+          puts "\n"
+          puts "==============PLAYER BOARD=============="
+          puts @user_board.render(true)
+          puts "\n\n"
           puts "Game Over. You won!"
           puts "=============GAME OVER===============\n\n\n\n"
           start
-          # Add computer vs user score
         end
       end
     end
   end
 
   def check_if_computer_ships_all_sunk
-    if user_ships.all? { |ship| ship.sunk? }
-    else
-      computer_takes_shot
-    end
+    computer_takes_shot if !user_ships.all? { |ship| ship.sunk? }
   end
 
   def computer_takes_shot
@@ -239,6 +218,13 @@ class Gameplay
       if @user_board.cells[computer_shot].ship.sunk?
         puts "My shot on #{computer_shot} sunk a #{@user_board.cells[computer_shot].ship.name.downcase}!"
         if user_ships.all? { |ship| ship.sunk? }
+          puts "\n\n"
+          puts "=============COMPUTER BOARD============="
+          puts @computer_board.render(true)
+          puts "\n"
+          puts "==============PLAYER BOARD=============="
+          puts @user_board.render(true)
+          puts "\n\n"
           puts "Game over. I - the computer - won!"
           puts "===============GAME OVER===============\n\n\n\n"
           start
@@ -247,19 +233,198 @@ class Gameplay
     end
   end
 
-  def computer_chases_hits
-    #    #                        index - rows.length index - 1  0   index + 1    index + rows.length
-    #                    ########              #           #     x     #           #
-    #  # computer_board.cells.keys => ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
-    #  # computer_board.cells.keys.index(computer_shot) => 0
-    #  next_target = []
-    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - 1]
-    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + 1]
-    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) - computer_board.rows.length]
-    #  next_target << computer_board.cells.keys[computer_board.cells.keys.index(computer_shot) + computer_board.rows.length]
-    # # binding.pry
-  end
-end
+  def animation
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "           ,,=================================.."
+    puts "          //   _ _   _ _   _ _   _ _   _ _   _ ]]"
+    puts "    ..___//                                    }}"
+    puts "  //                                           ]]"
+    puts " // = = = = = = = = = = = = = = = = = = = = = = \\\\"
+    puts "   --------              __-_ _-    _-___ _-    ]]"
+    puts "           \\\\          //   \\\\     //   \\\\      ]]"
+    puts "            \\\\ =================================="
+    puts "   \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    sleep(0.5)
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "           ,,=================================.."
+    puts "          //   _ _   _ _   _ _   _ _   _ _   _ ]]"
+    puts "    ..___//                                    }}"
+    puts "  //                                           ]]"
+    puts " // = = = = = = = = = = = = = = = = = = = = = = \\\\"
+    puts "   --------              __-_ _-    _-___ _-    ]]"
+    puts "           \\\\          //   \\\\     //   \\\\      ]]"
+    puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    sleep(0.6)
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "           ,,=================================.."
+    puts "          //   _ _   _ _   _ _   _ _   _ _   _ ]]"
+    puts "    ..___//                                    }}"
+    puts "  //                                           ]]"
+    puts " // = = = = = = = = = = = = = = = = = = = = = = \\\\"
+    puts "   --------              __-_ _-    _-___ _-    ]]"
+    puts "         \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    sleep(0.6)
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "           ,,=================================.."
+    puts "          //   _ _   _ _   _ _   _ _   _ _   _ ]]"
+    puts "    ..___//                                    }}"
+    puts "  //                                           ]]"
+    puts " // = = = = = = = = = = = = = = = = = = = = = = \\\\"
+    puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    sleep(0.6)
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "           ,,=================================.."
+    puts "          //   _ _   _ _   _ _   _ _   _ _   _ ]]"
+    puts "    ..___//                                    }}"
+    puts "  //                                           ]]"
+    puts "    \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    sleep(0.6)
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "           ,,=================================.."
+    puts "          //   _ _   _ _   _ _   _ _   _ _   _ ]]"
+    puts "    ..___//                                    }}"
+    puts "       \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    sleep(0.6)
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "           ,,=================================.."
+    puts "          //   _ _   _ _   _ _   _ _   _ _   _ ]]"
+    puts "     \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    sleep(0.6)
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
 
-gameplay = Gameplay.new
-gameplay.start
+    puts "           ,,=================================.."
+    puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    sleep(0.6)
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "     \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    sleep(0.6)
+    puts "\n"
+    puts "\n"
+    puts "      __   _           __   _              __   _"
+    puts "    _(  )_( )_       _(  )_( )_          _(  )_( )_"
+    puts "   (_   _    _)     (_   _    _)       (_   _    _)"
+    puts "     (_) (__)         (_) (__)           (_) (__)"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n                       Game Over"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "\n"
+    puts "       \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts "\n"
+    sleep(2)
+  end
+
+end
