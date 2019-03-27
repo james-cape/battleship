@@ -51,6 +51,7 @@ class Gameplay
   end
 
   def input_ships
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -103,6 +104,7 @@ class Gameplay
   end
 
   def user_places_ships
+    puts "\e[H\e[2J"
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your #{@user_ships.length} ships."
     puts "#{@user_board.render(true)}"
@@ -140,16 +142,23 @@ class Gameplay
     until computer_ships.all? { |ship| ship.sunk? } || user_ships.all? { |ship| ship.sunk? }
       if computer_ships.all? { |ship| ship.sunk? }
       else
+        player_takes_shot
         puts "\n\n"
         puts "=============COMPUTER BOARD============="
         puts @computer_board.render(true)
         puts "\n"
         puts "==============PLAYER BOARD=============="
         puts @user_board.render(true)
-        puts "\n\n"
-        player_takes_shot
-        sleep(2)
+        puts "\n\n\n\n"
+        sleep(4)
         computer_takes_shot
+        puts "\n\n"
+        puts "=============COMPUTER BOARD============="
+        puts @computer_board.render(true)
+        puts "\n"
+        puts "==============PLAYER BOARD=============="
+        puts @user_board.render(true)
+        puts "\n\n\n"
       end
     end
   end
@@ -157,6 +166,7 @@ class Gameplay
   def player_takes_shot
     puts "Enter the coordinate for your shot: "
     user_shot = gets.chomp.upcase
+    puts "\e[H\e[2J"
     puts "==============PLAYER SHOT=============="
 
     while !@computer_board.valid_coordinate?(user_shot)
@@ -186,7 +196,7 @@ class Gameplay
           puts "\n"
           puts "==============PLAYER BOARD=============="
           puts @user_board.render(true)
-          puts "\n\n"
+          puts "\n"
           puts "Game Over. You won!"
           puts "=============GAME OVER===============\n\n\n\n"
           start
@@ -202,6 +212,7 @@ class Gameplay
   def computer_takes_shot
     computer_shot = @available_computer_shots.sample
     @available_computer_shots.delete(computer_shot)
+    puts "\e[H\e[2J"
     puts "\n==============COMPUTER SHOT=============="
 
     evaluate_computer_shot(computer_shot)
@@ -227,6 +238,7 @@ class Gameplay
           puts "\n\n"
           puts "Game over. I - the computer - won!"
           puts "===============GAME OVER===============\n\n\n\n"
+
           start
         end
       end
@@ -234,6 +246,7 @@ class Gameplay
   end
 
   def animation
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -253,6 +266,7 @@ class Gameplay
     puts "   \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
     sleep(0.5)
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -272,6 +286,7 @@ class Gameplay
     puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
     sleep(0.6)
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -291,6 +306,7 @@ class Gameplay
     puts "         \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
     sleep(0.6)
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -310,6 +326,7 @@ class Gameplay
     puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
     sleep(0.6)
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -329,6 +346,7 @@ class Gameplay
     puts "    \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
     sleep(0.6)
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -348,6 +366,7 @@ class Gameplay
     puts "       \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
     sleep(0.6)
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -367,6 +386,7 @@ class Gameplay
     puts "     \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
     sleep(0.6)
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -382,11 +402,11 @@ class Gameplay
     puts "\n"
     puts "\n"
     puts "\n"
-
     puts "           ,,=================================.."
     puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
     sleep(0.6)
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
@@ -406,6 +426,7 @@ class Gameplay
     puts "     \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
     sleep(0.6)
+    puts "\e[H\e[2J"
     puts "\n"
     puts "\n"
     puts "      __   _           __   _              __   _"
