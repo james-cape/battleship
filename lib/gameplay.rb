@@ -99,7 +99,7 @@ class Gameplay
     puts "\e[H\e[2J"
     puts "    I have laid out my ships on the grid."
     puts "    You now need to lay out your #{@user_ships.length} ships.\n\n"
-    puts "#{@user_board.render(true)}"
+    @animations.display_boards(@computer_board, @user_board)
 
     @user_ships.each do |ship|
       cells_on_grid = false
@@ -107,7 +107,6 @@ class Gameplay
       cells_overlap = true
 
       while cells_on_grid == false || cells_consecutive == false || cells_overlap == true
-
         puts "\n\n    Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
         user_cells = gets.chomp.upcase.split(" ").sort
 
