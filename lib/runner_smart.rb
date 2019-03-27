@@ -5,6 +5,7 @@ require './lib/cell'
 require './lib/board'
 require './lib/computer'
 require './lib/gameplay'
+require './lib/animations'
 require 'pry'
 
 @gameplay = Gameplay.new

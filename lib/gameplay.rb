@@ -1,8 +1,3 @@
-require './lib/ship'
-require './lib/cell'
-require './lib/board'
-require './lib/computer'
-
 class Gameplay
 
   attr_reader :play_or_quit,
@@ -21,8 +16,6 @@ class Gameplay
 
     puts "\e[H\e[2J"
     start_animation
-    # puts "         Welcome to BATTLESHIP\n\n"
-    # puts "    Enter p to play. Enter q to quit."
     @play_or_quit = gets.chomp.downcase
     input_play_or_quit
   end
@@ -38,7 +31,6 @@ class Gameplay
         @play_or_quit = gets.chomp.downcase
       end
     end
-  animation
   end
 
   def input_board_size
@@ -48,38 +40,19 @@ class Gameplay
     width = gets.chomp
     @user_board = Board.new(height, width)
     @computer_board = Board.new(height, width)
+    @animations = Animations.new(@computer_board, @user_board)
     @computer = Computer.new(@computer_board, computer_ships)
     @available_computer_shots = @user_board.cells.keys
     input_ships
   end
 
   def input_ships
-    puts "\e[H\e[2J"
-    puts "\n"
-    puts "\n"
-    puts "          __   _           __   _              __   _"
-    puts "        _(  )_( )_       _(  )_( )_          _(  )_( )_"
-    puts "       (_   _    _)     (_   _    _)       (_   _    _)"
-    puts "         (_) (__)         (_) (__)           (_) (__)"
-    puts "\n"
-    puts "\n"
-    puts "               ,,=================================.."
-    puts "              //   _ _   _ _   _ _   _ _   _ _   _ ]]"
-    puts "        ..___//                                    }}"
-    puts "      //                                           ]]"
-    puts "     // = = = = = = = = SHIP INFORMATION = = = = = \\\\"
-    puts "       --------              __-_ _-    _-___ _-    ]]"
-    puts "               \\\\          //   \\\\     //   \\\\      ]]"
-    puts "                \\\\ =================================="
-    puts "          \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
-    puts "\n"
-
+    @animations.ship_screen
     @another_ship = "S"
     input_another_ship
   end
 
   def input_another_ship
-
     while @another_ship == "S"
       puts "\n    Enter the type of ship: "
       ship_name = gets.chomp
@@ -92,7 +65,6 @@ class Gameplay
       @user_ships << user_ship
       puts "\n    Enter S for another ship, or P to play"
       @another_ship = gets.chomp.upcase
-      # binding.pry
       while @another_ship != "P" && @another_ship != "S"
         puts "\n    Please re-enter P or S"
         @another_ship = gets.chomp.upcase
@@ -146,13 +118,14 @@ class Gameplay
       if computer_ships.all? { |ship| ship.sunk? }
       else
         player_takes_shot
-        puts "\n\n"
-        puts "    =============COMPUTER BOARD============="
-        puts @computer_board.render(true)
-        puts "\n"
-        puts "    ==============PLAYER BOARD=============="
-        puts @user_board.render(true)
-        puts "\n\n\n\n"
+        @animations.display_boards(@computer_board, @user_board)
+        # puts "\n\n"
+        # puts "    =============COMPUTER BOARD============="
+        # puts @computer_board.render(true)
+        # puts "\n"
+        # puts "    ==============PLAYER BOARD=============="
+        # puts @user_board.render(true)
+        # puts "\n\n\n\n"
         sleep(5)
         computer_takes_shot
         puts "\n\n"
