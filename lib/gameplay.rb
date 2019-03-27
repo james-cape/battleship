@@ -35,8 +35,19 @@ class Gameplay
   def input_board_size
     puts "\n\n    Enter a height for your board: "
     height = gets.chomp
+
+    until height.to_i.between?(1, 25)
+      puts "\n\n    Enter a height between 1 and 25 for your board: "
+      height = gets.chomp
+    end
+
     puts "\n\n    Enter a width for your board: "
     width = gets.chomp
+
+    until width.to_i.between?(1, 25)
+      puts "\n\n    Enter a width between 1 and 25 for your board: "
+      width = gets.chomp
+    end
     @user_board = Board.new(height, width)
     @computer_board = Board.new(height, width)
     @animations = Animations.new(@computer_board, @user_board)
