@@ -54,5 +54,4 @@ class Computer
       conditionally_place_ship(ship,all_combos)
     end
   end
-
 end

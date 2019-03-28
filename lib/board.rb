@@ -6,7 +6,6 @@ class Board
   def initialize(height = 4, width = 4)
     @rows = ("A"..(height.to_i + 64).chr).to_a
     @columns = ("1"..width.to_s).to_a
-#decide on max
     @cells = {}
     @rows.each do |row|
       @columns.each do |column|
@@ -30,7 +29,6 @@ class Board
   end
 
   def valid_placement?(ship, coordinate_array)
-
     ship_rows = coordinate_array.map do |coordinate|
       coordinate.scan(/\d+|\D+/)[0]
     end
@@ -47,7 +45,6 @@ class Board
       ship_column_combo == ship_columns
     end
 
-
     check_conditionals(ship, coordinate_array, rows_match, columns_match)
   end
 
@@ -56,12 +53,12 @@ class Board
   end
 
   def check_conditionals(ship, coordinate_array, rows_match, columns_match)
-    coordinate_array.length == ship.length &&
-    ((rows_match == true && columns_match == false) ||
-    (rows_match == false && columns_match == true)) &&
-    coordinate_array.all? do |coordinate|
+    ship_length_check      = coordinate_array.length == ship.length
+    vertical_or_horizontal = ((rows_match && !columns_match) || (!rows_match && columns_match))
+    coordinates_on_board   = coordinate_array.all? do |coordinate|
       @cells[coordinate].empty?
     end
+      ship_length_check && vertical_or_horizontal && coordinates_on_board
   end
 
   def place(ship, coordinates_array)
