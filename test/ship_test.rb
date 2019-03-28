@@ -75,5 +75,4 @@ class ShipTest < Minitest::Test
     actual   = @cruiser.sunk?
     assert_equal expected, actual
   end
-
 end

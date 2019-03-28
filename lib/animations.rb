@@ -1,7 +1,7 @@
 class Animations
 
   def initialize(computer_board = nil, user_board = nil)
-    @gameplay = Gameplay.new
+    # @gameplay = Gameplay.new
     @computer_board = computer_board
     @user_board = user_board
   end
@@ -18,12 +18,12 @@ class Animations
     puts "\n                     Welcome to BATTLESHIP"
     puts "\n"
     puts "\n                  Enter p to play or q to quit"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "\n"
-    puts "           \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
+    puts ""
+    puts ""
+    puts ""
+    puts ""
+    puts ""
+    puts "      \"_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"(_.~\"("
     puts "\n"
   end
 
@@ -50,6 +50,7 @@ class Animations
   end
 
   def display_boards(computer_board, user_board)
+    puts "\e[H\e[2J"
     puts "\n\n"
     puts "    =============COMPUTER BOARD============="
     puts @computer_board.render(true)
@@ -68,11 +69,11 @@ class Animations
     sleep(2)
   end
 
-  def warning_incoming
+  def warning_incoming(time)
     print "    "
     39.times do
       print "-"
-      sleep(0.03)
+      sleep(time)
     end
   print "\n"
   end
@@ -279,9 +280,4 @@ class Animations
     puts "\n"
     sleep(2)
   end
-
-
-
-
-
 end

@@ -99,7 +99,7 @@ class Gameplay
     puts "\e[H\e[2J"
     puts "    I have laid out my ships on the grid."
     puts "    You now need to lay out your #{@user_ships.length} ships.\n\n"
-    puts "#{@user_board.render(true)}"
+    @animations.display_boards(@computer_board, @user_board)
 
     @user_ships.each do |ship|
       cells_on_grid = false
@@ -107,8 +107,7 @@ class Gameplay
       cells_overlap = true
 
       while cells_on_grid == false || cells_consecutive == false || cells_overlap == true
-
-        puts "\n\n    Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
+        puts "\n    Enter #{ship.length} squares for the #{ship.name} (i.e. A1 A2 A3):"
         user_cells = gets.chomp.upcase.split(" ").sort
 
         user_cells.each do |cell|
@@ -137,41 +136,42 @@ class Gameplay
         won = player_takes_shot
         @animations.display_boards(@computer_board, @user_board)
         if !won
-          sleep(2)
-          computer_takes_shot
+          # sleep(0.2)
           @animations.display_boards(@computer_board, @user_board)
+          computer_takes_shot
+          # @animations.display_boards(@computer_board, @user_board)
         end
       end
     end
   end
 
   def player_takes_shot
+    @animations.display_boards(@computer_board, @user_board)
     puts "\n    Enter the coordinate for your shot: "
     user_shot = gets.chomp.upcase
-    puts "\e[H\e[2J"
     puts "\n    ==============PLAYER SHOT=============="
 
-    while !@computer_board.valid_coordinate?(user_shot)
-      puts "    Your shot was not a valid coordinate. Try again: "
+    while !@computer_board.valid_coordinate?(user_shot) || @computer_board.cells[user_shot].fired_upon == true
+      puts "    Shots must be on the board and not already shot on."
+      puts "    Please enter another spot to fire on: "
       user_shot = gets.chomp.upcase
     end
 
-    while @computer_board.cells[user_shot].fired_upon == true
-      puts "    Your shot was in a spot already fired upon. Please enter another shot: "
-      user_shot = gets.chomp.upcase
-    end
     @computer_board.cells[user_shot].fire_upon
-    @animations.warning_incoming
+    @animations.warning_incoming(0.03)
     return evaluate_user_shot(user_shot)
   end
 
   def evaluate_user_shot(user_shot)
     if @computer_board.cells[user_shot].empty?
       puts "    Your shot on #{user_shot} was a miss."
+      sleep(2)
     else
       puts "    Your shot on #{user_shot} was a hit!"
+      sleep(2)
       if @computer_board.cells[user_shot].ship.sunk?
         puts "    Your shot on #{user_shot} sunk a #{@computer_board.cells[user_shot].ship.name.downcase}!"
+        sleep(2)
         if computer_ships.all? { |ship| ship.sunk? }
           @animations.display_boards(@computer_board, @user_board)
           puts "    Game Over. You won!"
@@ -193,26 +193,27 @@ class Gameplay
     computer_takes_shot if !user_ships.all? { |ship| ship.sunk? }
   end
 
-
   def computer_takes_shot
     computer_shot = @available_computer_shots.sample
     @available_computer_shots.delete(computer_shot)
-    puts "\e[H\e[2J"
     puts "\n    =============COMPUTER SHOT============="
-    @animations.warning_incoming
+    sleep(0.3)
+    @animations.warning_incoming(0.07)
     evaluate_computer_shot(computer_shot)
   end
 
   def evaluate_computer_shot(computer_shot)
     if @user_board.cells[computer_shot].empty?
       @user_board.cells[computer_shot].fire_upon
-
       puts "    My shot on #{computer_shot} was a miss."
+      sleep(2)
     else
       @user_board.cells[computer_shot].fire_upon
       puts "    My shot on #{computer_shot} was a hit!"
+      sleep(2)
       if @user_board.cells[computer_shot].ship.sunk?
         puts "    My shot on #{computer_shot} sunk a #{@user_board.cells[computer_shot].ship.name.downcase}!"
+        sleep(2)
         if user_ships.all? { |ship| ship.sunk? }
           @animations.display_boards(@computer_board, @user_board)
           puts "    Game over. The computer won!"
